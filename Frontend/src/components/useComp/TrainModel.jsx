@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { toast, Toaster } from 'react-hot-toast';
 import InnerNav from './InnerNav';
 import Models from './Models';
 
 export const TrainModel = () => {
+  useEffect(() => {
+    toast.success("User Logged In", {
+      duration: 3000, // Duration in milliseconds
+    });
+  }, []);
+
   return (
     <div className="relative bg-black h-auto w-screen">
       <div className="absolute inset-0 bg-cover bg-center bg-fixed blur-sm z-0" style={{ backgroundImage: "url('/images/bg1.jpg')" }}></div>
@@ -12,8 +19,7 @@ export const TrainModel = () => {
         <Models />
         <br/>
         <div style={{ display: "flex", justifyContent: "space-between" }} className="p-5">
-          <div className="form bg-white rounded-lg shadow-lg p-5" style={{ flex: 1, marginRight: "20px", backgroundColor: "#EFF2FF", height: "80vh", borderRadius: "20px" }}>
-            {/* Form for training model */}
+          <div className="form rounded-lg shadow-lg p-5" style={{ flex: 1, marginRight: "20px", backgroundColor: "#F4F1FD", height: "80vh", borderRadius: "20px" }}>
             <form>
               <div className="mb-3">
                 <br /><br />
@@ -22,7 +28,7 @@ export const TrainModel = () => {
                 </label>
                 <br /><br /><br /><br />
                 <center>
-                  <input type="file" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style={{ borderRadius: "20px", width: "40vh" }} />
+                  <input type="file" className="form-control" name='file' id="email" aria-describedby="emailHelp" style={{ borderRadius: "20px", width: "40vh" }} />
                 </center>
                 <div id="emailHelp" className="form-text">
                   Upload your file to train your model <i className="fa-solid fa-file-import"></i>
@@ -35,7 +41,6 @@ export const TrainModel = () => {
             </form>
           </div>
           <div className="table-primary bg-yellow-200 rounded-lg shadow-lg p-5" style={{ flex: 1, marginLeft: "20px", backgroundColor: "#FCD571", borderRadius: "20px" }}>
-            {/* Div for table */}
             <br/>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
               <i className="fa-solid fa-database" style={{ color: '#EC7A6F' }}></i>
@@ -73,6 +78,7 @@ export const TrainModel = () => {
             </table>
           </div>
         </div>
+        <Toaster />
       </div>
     </div>
   );
