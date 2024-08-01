@@ -1,5 +1,10 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom';
+import Features from './Features';
+import Hero from './Hero';
+import Navbar from './Navbar';
+import MainHeader from './MainHeader';
+import Header from './Header';
 const RealMain = () => {
   return (
     <div>

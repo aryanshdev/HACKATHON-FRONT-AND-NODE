@@ -10,6 +10,7 @@ function App() {
     <Routes>
       <Route path="/" element={<RealMain/>} />
         <Route path="/trainmodel" element={<TrainModel />} />
+     
       </Routes>
     </BrowserRouter>
   );

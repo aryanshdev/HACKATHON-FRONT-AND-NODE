@@ -70,13 +70,14 @@ app.get("/login", (req, res) => {
 app.get(
     "/google-auth",
     passport.authenticate("google", { scope: ["profile", "email"] })
+    
   );
   
   app.get(
     "/process-google",
     passport.authenticate("google", {
       failureRedirect: "/",
-      successRedirect: "/TrainModel",
+      successRedirect: "http://localhost:5173/TrainModel",
       keepSessionInfo: true,
     })
   );
