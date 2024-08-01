@@ -2,13 +2,13 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div>
+    <div className='flex justify-center w-screen h-auto p-0 mx-0'>
         
-<header className="sticky top-4 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-50">
-  <nav className="relative max-w-[50rem] w-full rounded-[28px] py-3 ps-5 pe-2 md:flex md:items-center md:justify-between md:py-0 mx-2 lg:mx-auto" aria-label="Global" style={{backgroundColor:"rgb(177 177 177)"}}>
+<header className="fixed top-4  flex flex-wrap justify-center md:flex-nowrap z-50 w-screen">
+  <nav className="relative w-[75vw] rounded-[28px] ps-5 pe-2 md:flex md:items-center md:justify-between md:py-0 mx-2 lg:mx-auto" aria-label="Global" style={{backgroundColor:"rgb(177 177 177)"}}>
     <div className="flex items-center justify-between">
 
-      <a className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" href="" aria-label="Launchpad.io">
+      <a className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" href="" aria-label="Avenge.AI">
        <img src='../../../public/images/logo.png' style={{height:"50px", width:"71px"}}/> 
       </a>
      &nbsp;  <span style={{color:"lightgoldenrodyellow"}}></span>

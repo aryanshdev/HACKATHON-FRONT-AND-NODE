@@ -7,7 +7,7 @@ import MainHeader from './MainHeader';
 import Header from './Header';
 const RealMain = () => {
   return (
-    <div className='w-screen bg-white py-0 px-2'>
+    <div className='w-screen py-0 px-2'>
 
         {/* Main page where all the landing compoents are being rendered */}
         <Navbar/>

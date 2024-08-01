@@ -8,7 +8,7 @@ const InnerNav = () => {
           <a className="navbar-brand d-flex align-items-center" href="#" style={{ color: "#000000" }}>
             <img src='../../../public/images/logo2.png' className="mx-3"style={{ height: "50px", width: "50px", marginRight: "10px" }} alt="Logo" />
             <span style={{
-              background: 'linear-gradient(-100deg, #036EFD, #EC7A6F, #EC7A6F)',
+              background: 'linear-gradient(-100deg,#EC7A6F, #036EFD) ',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight:"bold",

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import dataTransfer from './dataTransfer';
 import { color } from 'framer-motion';
+import TrainModel from './TrainModel';
+
 const Models = () => {
 
 
@@ -25,8 +27,8 @@ const Models = () => {
           }}>
             <img src='../../../public/images/star.png' className='w-5 h-5' alt='star' />&nbsp; Subprocesses 
           </button>
-
-          <button
+           
+           <Link to="/TrainModel">  <button
             className="btn mx-2"
             style={{
               borderRadius: "20px",
@@ -37,18 +39,21 @@ const Models = () => {
               color: "#000"
             }}>
             <i className="fa-solid fa-cloud-arrow-up" style={{color:"#036EFD"}}></i> &nbsp;Upload Dataset
-          </button>
-
-          <Link to="/dataTransfer"> <button className="btn mx-2" style={{
-            borderRadius: "20px",
-            background: "white",
-            backdropFilter: "blur(10px)",
-            border: "1px solid rgba(255, 255, 255, 0.3)",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            color: "#000"
-          }} 
-       > <i className="fa-solid fa-file-zipper" style={{color:"#036EFD"}}></i> &nbsp;Data Transformation
           </button></Link>
+        
+
+          <Link to="/transformData">
+            <button className="btn mx-2" style={{
+              borderRadius: "20px",
+              background: "white",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              color: "#000"
+            }}>
+              <i className="fa-solid fa-file-zipper" style={{ color: "#036EFD" }}></i> &nbsp;Data Transformation
+            </button>
+          </Link>
 
           <button className="btn mx-2" style={{
             borderRadius: "20px",

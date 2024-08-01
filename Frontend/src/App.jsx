@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 import { TrainModel } from './components/useComp/TrainModel';
 import RealMain from './components/useComp/RealMain';
+import DataTransfer from './components/useComp/dataTransfer';
 
-import dataTransfer from './components/useComp/dataTransfer';
 function App() {
   return (
     <>
@@ -22,16 +22,16 @@ function App() {
               primary: '#65A0FB',
             },
           },
-         
         }}
-        limit={1} 
+        limit={1}
       />
 
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<RealMain />} />
           <Route path="/trainmodel" element={<TrainModel />} />
-          <Route path ="/transformData" element={<dataTransfer/>}/> 
+          <Route path="/transformData" element={<DataTransfer />} />
+          
         </Routes>
       </BrowserRouter>
     </>

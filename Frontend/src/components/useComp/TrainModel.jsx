@@ -1,9 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import InnerNav from "./InnerNav";
 import Models from "./Models";
 
 export const TrainModel = () => {
+  const [tableHeader, setHeader] = useState("");
+  const [tableBody, setBody] = useState("");
+  const [showButtons, setShowButtons] = useState(false);
+  const handleSubmit = (e) => {
+    var formData = new FormData();
+    var file = document.getElementById("fileUpload").files[0];
+    formData.append("uploadFile", file);
+    fetch("http://127.0.0.1:5000/uploadFile", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        toast.success("File Uploaded Successfully");
+        const heads = response[0];
+        let headerString = "<tr>";
+        for (var col in heads) {
+          headerString += `<td>${col}</td>`;
+        }
+        setHeader(headerString + "</tr>");
+
+        var bodyString = "";
+        for (const entry of response) {
+          bodyString += "<tr>";
+          for (var value in entry) {
+            bodyString += `<td>${entry[value]}</td>`;
+          }
+          bodyString += "</tr>";
+        }
+        setBody(bodyString);
+        setShowButtons(true);
+      })
+      .catch((err) => {
+        toast.error("Error Uploading File");
+        console.log(err);
+      });
+  };
+  const reqDeleteFile = () => {
+    fetch("http://127.0.0.1:5000/deleteFile", {
+      method: "DELETE",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        toast.success("File Deleted Successfully");
+        setHeader("");
+        setBody("");
+        setShowButtons(false);
+      })
+      .catch((err) => {
+        toast.error("Error Deleting File");
+        console.log(err);
+      });
+  };
   return (
     <div className="relative bg-black h-auto w-screen">
       <div
@@ -20,7 +83,7 @@ export const TrainModel = () => {
           className="p-5"
         >
           <div
-            className="form rounded-lg shadow-lg p-5"
+            className="form rounded-lg shadow-lg p-5 h-[80vh]"
             style={{
               flex: 1,
               marginRight: "20px",
@@ -29,18 +92,15 @@ export const TrainModel = () => {
               borderRadius: "20px",
             }}
           >
-            <form action="http://127.0.0.1:5000/uploadFile" method="post" enctype="multipart/form-data">
+            <form
+              onSubmit={handleSubmit}
+              encType="multipart/form-data"
+              action="javascript:void"
+            >
               <div className="mb-3">
                 <br />
                 <br />
-                <label
-                  htmlFor="exampleInputEmail1"
-                  className="form-label"
-                  style={{ fontSize: "30px", fontWeight: "bolder" }}
-                >
-                  <i className="fa-solid fa-microchip"></i> &nbsp;Upload your
-                  Dataset file
-                </label>
+                <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}> <i className="fa-solid fa-microchip" style={{ color: "#036EFD" }}></i> &nbsp;  Upload your Dataset file</h1><br/>
                 <br />
                 <br />
                 <br />
@@ -57,7 +117,7 @@ export const TrainModel = () => {
                   />
                 </center>
                 <div id="emailHelp" className="form-text">
-                  Upload your file to train your model{" "}
+                  Upload your file to train your model &nbsp;
                   <i className="fa-solid fa-file-import"></i>
                 </div>
                 <br />
@@ -79,16 +139,47 @@ export const TrainModel = () => {
                 </button>
               </div>
             </form>
+            <div className={showButtons ? "block" : "hidden"}>
+              <button
+                onClick={reqDeleteFile}
+                className="btn btn-primary"
+                style={{
+                  borderRadius: "20px",
+                  background:
+                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
+                  color: "white",
+                  borderColor: "#EFF2FF",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <i class="fa-sharp fa-solid fa-trash"></i> &nbsp; Delete File
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{
+                  borderRadius: "20px",
+                  background:
+                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
+                  color: "white",
+                  borderColor: "#EFF2FF",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                Continue &nbsp; <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
           </div>
           <div
-            className="table-primary bg-yellow-200 rounded-lg shadow-lg p-5"
+            className="table-primary rounded-lg shadow-lg p-5 "
             style={{
               flex: 1,
               marginLeft: "20px",
-              backgroundColor: "#FCD571",
+              backgroundColor: "whitesmoke",
               borderRadius: "20px",
-            }}
-          >
+              backgroundImage:"url('/images/grad1 copy.png')" ,
+            }}
+          >
             <br />
             <div
               style={{
@@ -98,53 +189,20 @@ export const TrainModel = () => {
                 textAlign: "center",
               }}
             >
-              <i
-                className="fa-solid fa-database"
-                style={{ color: "#EC7A6F" }}
-              ></i>
-              &nbsp;&nbsp;{" "}
-              <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
-                Uploaded Dataset
-              </h1>
+            
+              <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}> <i className="fa-solid fa-file-csv" style={{ color: "#036EFD" }}></i> &nbsp; Uploaded Dataset</h1><br/>
             </div>
             <br />
             <table
-              className="table"
+              className="table overflow-scroll"
               style={{
                 backgroundColor: "#FCD571",
                 width: "100%",
                 borderRadius: "10px",
               }}
             >
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row" style={{ backgroundColor: "yellow" }}>
-                    1
-                  </th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td colSpan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
+              <thead className="font-bold" dangerouslySetInnerHTML={{ __html: tableHeader }}></thead>
+              <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
             </table>
           </div>
         </div>
