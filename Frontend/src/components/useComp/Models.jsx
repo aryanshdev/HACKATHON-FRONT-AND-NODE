@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import dataTransfer from './dataTransfer';
 import { color } from 'framer-motion';
 import TrainModel from './TrainModel';
+import RunModels from './RunModels';
 
 const Models = () => {
 
@@ -55,6 +56,7 @@ const Models = () => {
             </button>
           </Link>
 
+          <Link to="/RunModels">
           <button className="btn mx-2" style={{
             borderRadius: "20px",
             background: "white",
@@ -65,6 +67,7 @@ const Models = () => {
           }}>
             <i className="fa-solid fa-microchip"style={{color:"#036EFD"}}></i> &nbsp;Train Models
           </button>
+          </Link>
 
           <button className="btn mx-2" style={{
             borderRadius: "20px",

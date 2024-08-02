@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { TrainModel } from './components/useComp/TrainModel';
 import RealMain from './components/useComp/RealMain';
 import DataTransfer from './components/useComp/dataTransfer';
+import RunModels from './components/useComp/RunModels';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={<RealMain />} />
           <Route path="/trainmodel" element={<TrainModel />} />
           <Route path="/transformData" element={<DataTransfer />} />
+          <Route path="/runmodels" element={<RunModels />} />
           
         </Routes>
       </BrowserRouter>
