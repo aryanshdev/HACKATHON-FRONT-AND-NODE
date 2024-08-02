@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import InnerNav from "./InnerNav";
 import Models from "./Models";
+import { useNavigate } from "react-router-dom";
 
 export const TrainModel = () => {
   const [tableHeader, setHeader] = useState("");
-  const [tableBody, setBody] = useState("");
+  const [tableBody, setBody] = useState("Upload Dataset");
   const [showButtons, setShowButtons] = useState(false);
   const handleSubmit = (e) => {
     var formData = new FormData();
@@ -19,10 +20,11 @@ export const TrainModel = () => {
       },
     })
       .then((response) => {
-        return response.json();
+        return (response.json());
       })
       .then((response) => {
         toast.success("File Uploaded Successfully");
+        response = JSON.parse(response["data"]);
         const heads = response[0];
         let headerString = "<tr>";
         for (var col in heads) {
@@ -40,6 +42,9 @@ export const TrainModel = () => {
         }
         setBody(bodyString);
         setShowButtons(true);
+        document.cookie = "ssid=" + response["code"];
+        document.cookie = "tbodyData=" + bodyString;
+        document.cookie = "theadData=" + headerString;
       })
       .catch((err) => {
         toast.error("Error Uploading File");
@@ -59,7 +64,7 @@ export const TrainModel = () => {
       .then((response) => {
         toast.success("File Deleted Successfully");
         setHeader("");
-        setBody("");
+        setBody("Upload Dataset");
         setShowButtons(false);
       })
       .catch((err) => {
@@ -155,6 +160,7 @@ export const TrainModel = () => {
                 <i class="fa-sharp fa-solid fa-trash"></i> &nbsp; Delete File
               </button>
               <button
+              //TODO : USE NAVIGATE TO REDIRECT TO THE NEXT PAGE
                 type="submit"
                 className="btn btn-primary"
                 style={{
@@ -194,15 +200,14 @@ export const TrainModel = () => {
             </div>
             <br />
             <table
-              className="table overflow-scroll"
+              className="table overflow-scroll w-full h-5/6 "
               style={{
                 backgroundColor: "#FCD571",
-                width: "100%",
                 borderRadius: "10px",
               }}
             >
               <thead className="font-bold" dangerouslySetInnerHTML={{ __html: tableHeader }}></thead>
-              <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
+              <tbody dangerouslySetInnerHTML={{ __html: tableBody} }></tbody>
             </table>
           </div>
         </div>
