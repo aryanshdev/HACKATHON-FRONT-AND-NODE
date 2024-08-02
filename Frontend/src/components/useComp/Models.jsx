@@ -77,6 +77,17 @@ const cookieId= getCookie("ssid");
           }}>
             <i className="fa-solid fa-download" style={{color:"#036EFD"}}></i> &nbsp;Download
           </button>
+
+          <button className="btn mx-2" style={{
+            borderRadius: "20px",
+            background: "white",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            color: "#000"
+          }}>
+            <i className="fa-solid fa-chip" style={{color:"#036EFD"}}></i> &nbsp;Check By TPot
+          </button>
         </div>
       </nav>
     </div>

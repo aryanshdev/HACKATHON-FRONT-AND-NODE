@@ -26,7 +26,7 @@ export const TrainModel = () => {
       })
       .then((response) => {
         toast.success("File Uploaded Successfully");
-        response = JSON.parse(response["data"]);
+        response = JSON.parse(response["data"]).slice(0,15);
         const heads = response[0];
         let headerString = "<tr>";
         for (var col in heads) {
@@ -44,6 +44,12 @@ export const TrainModel = () => {
         }
         setBody(bodyString);
         setShowButtons(true);
+        setTimeout(() => {
+          document.cookie = "tbodyData=" + bodyString;
+        document.cookie = "theadData=" + headerString;
+        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
+      
+        },1500)
         document.cookie = "tbodyData=" + bodyString;
         document.cookie = "theadData=" + headerString;
         document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
@@ -89,8 +95,8 @@ export const TrainModel = () => {
         <Models />
         <br />
         <div
-          style={{ display: "flex", justifyContent: "space-between" }}
-          className="p-5"
+          style={{ display: "flex", justifyContent: "space-between", flex: 1 ,  }}
+          className="w-screen p-5"
         >
           <div
             className="form rounded-lg shadow-lg p-5 h-[80vh]"
@@ -193,7 +199,7 @@ export const TrainModel = () => {
             </div>
           </div>
           <div
-            className="table-primary rounded-lg shadow-lg p-5 "
+            className="table-primary rounded-lg shadow-lg h-[80vh]  overflow-scroll"
             style={{
               flex: 1,
               marginLeft: "20px",
@@ -203,13 +209,8 @@ export const TrainModel = () => {
             }}
           >
             <br />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "center",
-              }}
+            <div className="w-auto h-[80vh] overflow-scroll flex flex-col "
+              
             >
               <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
                 {" "}
@@ -220,12 +221,10 @@ export const TrainModel = () => {
                 &nbsp; Uploaded Dataset
               </h1>
               <br />
-            </div>
-            <br />
-            <table
-              className="table overflow-scroll w-full h-5/6 "
+              <table
+              className="table overflow-scroll w-full h-5/6 bg-transparent"
               style={{
-                backgroundColor: "#FCD571",
+                
                 borderRadius: "10px",
               }}
             >
@@ -235,6 +234,9 @@ export const TrainModel = () => {
               ></thead>
               <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
             </table>
+            </div>
+            <br />
+           
           </div>
         </div>
         <Toaster />

@@ -18,6 +18,7 @@ const DataTransfer = () => {
     return null;
   }
   function setTableCompletely(response) {
+    response = JSON.parse(response["data"]);
     const heads = response[0];
     let headerString = "<tr>";
     for (var col in heads) {
@@ -40,7 +41,7 @@ const DataTransfer = () => {
     const formData = new FormData();
     formData.append("code", getCookie("ssid"));
   
-    fetch("http://127.0.0.1:5000/cleanColumns", {
+    fetch("http://127.0.0.1:5000/cleanColumnNames", {
       method: "POST",
       body: formData,
       credentials: "include", // Include this line if you need to send cookies with the request
@@ -77,10 +78,9 @@ const DataTransfer = () => {
   };
   
 
-  const checkMissing = () => {
+  const checkMissingValuesForColumns = () => {
     const formData = new FormData();
     formData.append("code", getCookie("ssid"));
-  
     fetch("http://127.0.0.1:5000/checkMissing", {
       method: "POST",
       body: formData,
@@ -88,6 +88,7 @@ const DataTransfer = () => {
       .then((response) => response.json())
       .then((response) => {
         toast.success(response["message"]);
+        console.log(response);
         setTableCompletely(response);
       })
       .catch((err) => {
@@ -137,6 +138,7 @@ const DataTransfer = () => {
   const handleNonNumericDrop = () => {
     var formData = new FormData();
     var col = document.querySelector("input[name='handleNonNum']").value;
+    formData.append("code", getCookie("ssid"));
     formData.append("col", col);
     fetch("http://127.0.0.1:5000/handle_NonNumeric_Drop", {
       method: "POST",
@@ -155,19 +157,79 @@ const DataTransfer = () => {
       });
   };
 
+  const handleNumericMissing = () => {
+    var formData = new FormData();
+    var code = getCookie("ssid");
+    var col = document.querySelector("input[name='handleNumericMissing']").value;
+    formData.append("col", col);
+    formData.append("code", code);
+    fetch("http://127.0.0.1:5000/handle_Numeric_Missing", {
+      method: "POST",
+     body: formData,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        toast.success(response["message"]);
+        setTableCompletely(response);
+      })
+      .catch((err) => {
+        toast.error("Error Dropping Non Numerical Columns");
+        console.log(err);
+      });
+  };
 
+  const handleDeleteCol = () => {
+    var formData = new FormData();
+    var code = getCookie("ssid");
+    var col = document.querySelector("input[name='dropColumnName']").value;
+    formData.append("col", col);
+    formData.append("code", code);
+    fetch("http://127.0.0.1:5000/dropColumn", {
+      method: "POST",
+     body: formData,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        toast.success(response["message"]);
+        setTableCompletely(response);
+      })
+      .catch((err) => {
+        toast.error("Error Dropping Non Numerical Columns");
+        console.log(err);
+      });
+  };
 
-
+const showManipulatedDataFromServer = () => {
+  const formData = new FormData();
+  formData.append("code", getCookie("ssid"));
+  fetch("http://127.0.0.1:5000/cleanColumnNames", {
+    method: "GET",
+    body: formData, // Include this line if you need to send cookies with the request
+  })
+    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+      toast.success("Table Now Visible");
+      setTableCompletely(response);
+    })
+    .catch((err) => {
+      toast.error("Error Fetching Table");
+      console.log(err);
+    });
+}
 
   const convertNumeric = () => {
     var formData = new FormData();
-    var code = getCookie("ssid");
+    formData.append("code", getCookie("ssid"));
+    var col = document.querySelector("input[name='convertNumeric']").value;
+    formData.append("col", col);
     fetch("http://127.0.0.1:5000/convertNumeric", {
       method: "POST",
-     
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      body: formData,
     })
       .then((response) => {
         return response.json();
@@ -182,9 +244,12 @@ const DataTransfer = () => {
       });
   };
   const normalizeDate = () => {
+    var formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+    formData.append("col", document.querySelector("input[name='dateColName']").value);
     fetch("http://127.0.0.1:5000/normalizeDate", {
       method: "POST",
-     
+      body: formData,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -201,12 +266,12 @@ const DataTransfer = () => {
       });
   };
   const oneHot = () => {
+    var formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+    formData.append("col", document.querySelector("input[name='onehotColNum']").value);
     fetch("http://127.0.0.1:5000/oneHot", {
       method: "POST",
-     
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      body: formData,
     })
       .then((response) => {
         return response.json();
@@ -220,12 +285,12 @@ const DataTransfer = () => {
       });
   };
   const getDatatypes = () => {
+    var formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+    formData.append("col", document.querySelector("input[name='dateColName']").value);
     fetch("http://127.0.0.1:5000/get_Col_Datatypes", {
       method: "POST",
      
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
     })
       .then((response) => {
         return response.json();
@@ -239,9 +304,12 @@ const DataTransfer = () => {
       });
   };
   const dropColWithoutTarget = () => {
+    var formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+    formData.append("col", document.querySelector("input[name='dropColWOTarget']").value);
     fetch("http://127.0.0.1:5000/drop_Rows_WO_Target", {
       method: "POST",
-     
+     body: formData,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -309,7 +377,7 @@ const setTableFromCookie = () => {
                 class="fa-solid fa-broom"
                 style={{ color: "#036EFD", fontSize: "20px" }}
               ></i>{" "}
-              &nbsp;Clean Columns{" "}
+              &nbsp;Clean Column Names{" "}
             </h1>
             <button
               type="submit"
@@ -325,7 +393,7 @@ const setTableFromCookie = () => {
               }}
             >
               <i class="fa-solid fa-arrow-up-from-bracket"></i>&nbsp; Clean
-              Columns
+              Column Names
             </button>
           </form>
           {/* Remove Duplicates , buttons */}
@@ -339,7 +407,7 @@ const setTableFromCookie = () => {
                 class="fa-solid fa-eraser"
                 style={{ color: "#036EFD", fontSize: "20px" }}
               ></i>{" "}
-              &nbsp;Remove Duplicates{" "}
+              &nbsp;Remove Duplicate Rows{" "}
             </h1>
             <button
               type="submit"
@@ -355,14 +423,14 @@ const setTableFromCookie = () => {
               }}
             >
               <i class="fa-solid fa-arrow-up-from-bracket"></i>&nbsp; Remove
-              Duplicates
+              Duplicate Rows
             </button>
           </form>
           <br />
           <br />
           {/* Check missing value */}
           <br />
-          <form action="javascript:void" encType="multipart/form-data"  onSubmit={checkMissing}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={checkMissingValuesForColumns}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -371,7 +439,7 @@ const setTableFromCookie = () => {
                 class="fa-solid fa-circle-check"
                 style={{ color: "#036EFD", fontSize: "20px" }}
               ></i>{" "}
-              &nbsp;Check Missing Values
+              &nbsp;Check Missing Values For Columns
             </h1>
             <button
               type="submit"
@@ -387,7 +455,7 @@ const setTableFromCookie = () => {
               }}
             >
               <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Check
-              Missing Values
+              Missing Values For Columns
             </button>
           </form>
           <br />
@@ -401,10 +469,20 @@ const setTableFromCookie = () => {
                 class="fa-solid fa-angle-down"
                 style={{ color: "#036EFD", fontSize: "20px" }}
               ></i>{" "}
-              &nbsp; Handle Non Numeric{" "}
+              &nbsp; Handle Missing Non Numeric Data{" "}
             </h1>
             <br />
-            <div class="mb-1">
+            <div class="mb-1 flex flex-col items-center">
+              <button onClick={showManipulatedDataFromServer} className="btn btn-primary"
+              style={{
+                borderRadius: "20px",
+                width: "40vh",
+                background:
+                  "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
+                color: "white",
+                borderColor: "#EFF2FF",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              }}>Show Table Again</button>
               <label htmlFor="">
                 Enter Non Numeric Column Names, Comma Separated
               </label>
@@ -416,7 +494,9 @@ const setTableFromCookie = () => {
                 style={{ borderRadius: "20px" }}
               />
             </div>
-            <div class="dropdown mt-2 p-0">
+           
+            <div class="dropdown mt-2 p-0 flex flex-col justify-center items-center align-middle">
+            <label htmlFor="handleNonNum"> Select whether to Drop of Fill Data </label>
               <select
                 name="handleNonNum"
                 id="handleNonNum"
@@ -448,7 +528,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* Handle numeric data   */}
-          <form action="javascript:void" encType="multipart/form-data" >
+          <form action="javascript:void" onSubmit={handleNumericMissing} encType="multipart/form-data" >
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -457,7 +537,7 @@ const setTableFromCookie = () => {
                 class="fa-solid fa-bars"
                 style={{ color: "#036EFD", fontSize: "20px" }}
               ></i>{" "}
-              &nbsp;Handle numeric data{" "}
+              &nbsp;Handle missing numeric data{" "}
             </h1>
             <br />
             <div class="mb-3">
@@ -465,9 +545,10 @@ const setTableFromCookie = () => {
                 Enter Numeric Column Names To Be Filled By Median Values
               </label>
               <input
-                type="number"
+                type="text"
                 class="form-control"
-                placeholder="Enter Median Value"
+                name="handleNumericMissing"
+                placeholder="Enter Column Name Value"
                 style={{ borderRadius: "20px" }}
               />
             </div>
@@ -490,6 +571,8 @@ const setTableFromCookie = () => {
           </form>
           <br />
           <br />
+         
+          <br />
           {/* Convert to numeric  */}
           <form action="javascript:void" encType="multipart/form-data"  onSubmit={convertNumeric}>
             <h1
@@ -501,6 +584,16 @@ const setTableFromCookie = () => {
               ></i>{" "}
               &nbsp;Convert to numeric{" "}
             </h1>
+            <div class="mb-3">
+              <label htmlFor="">Enter Date Column Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="convertNumeric"
+                placeholder="Enter Date Column Name"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
             <button
               type="submit"
               className="btn btn-primary"
@@ -537,6 +630,7 @@ const setTableFromCookie = () => {
               <input
                 type="text"
                 class="form-control"
+                name="dateColName"
                 placeholder="Enter Date Column Name"
                 style={{ borderRadius: "20px" }}
               />
@@ -560,6 +654,48 @@ const setTableFromCookie = () => {
           </form>
           <br />
           <br />
+           {/* Handle Delete Column   */}
+           <form action="javascript:void" onSubmit={handleDeleteCol} encType="multipart/form-data" >
+            <h1
+              style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
+            >
+              {" "}
+              <i
+                class="fa-solid fa-bars"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Drop Columns{" "}
+            </h1>
+            <br />
+            <div class="mb-3">
+              <label htmlFor="">
+                Enter Column Names, Comma Separated, To Drop
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="dropColumnName"
+                placeholder="Enter Column Names"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{
+                borderRadius: "20px",
+                width: "40vh",
+                background:
+                  "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
+                color: "white",
+                borderColor: "#EFF2FF",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Drop Columns
+            </button>
+          </form>
+          <br />
           {/* One hot encoding */}
           <form action="javascript:void" encType="multipart/form-data"  onSubmit={oneHot}>
             {" "}
@@ -577,6 +713,7 @@ const setTableFromCookie = () => {
               <input
                 type="text"
                 class="form-control"
+                name="onehotColNum"
                 placeholder="Enter Column Name"
                 style={{ borderRadius: "20px" }}
               />
@@ -642,10 +779,11 @@ const setTableFromCookie = () => {
               &nbsp;&nbsp;Drop rows without target{" "}
             </h1>
             <div class="mb-3">
-              <label htmlFor="">Enter Target Value</label>
+              <label htmlFor="">Enter Target Columns to Drop</label>
               <input
                 type="text"
                 class="form-control"
+                name="dropColWOTarget"
                 placeholder="Enter Value"
                 style={{ borderRadius: "20px" }}
               />
@@ -671,7 +809,7 @@ const setTableFromCookie = () => {
 
         {/* Table div Starts Here */}
         <div
-          className="table-primary rounded-lg shadow-lg p-5 "
+          className="table-primary rounded-lg shadow-lg p-5 overflow-scroll"
           style={{
             flex: 1,
             marginLeft: "20px",
