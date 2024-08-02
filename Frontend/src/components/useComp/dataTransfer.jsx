@@ -37,17 +37,18 @@ const DataTransfer = () => {
   }
 
   const cleanColumns = () => {
+    const formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+  
     fetch("http://127.0.0.1:5000/cleanColumns", {
       method: "POST",
-      credentials: "include",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      body: formData,
+      credentials: "include", // Include this line if you need to send cookies with the request
     })
+      .then((response) => response.json())
       .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
+        console.log(response);
+        toast.success(response["message"]);
         setTableCompletely(response);
       })
       .catch((err) => {
@@ -57,17 +58,16 @@ const DataTransfer = () => {
   };
 
   const deleteDuplicates = () => {
+    const formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+  
     fetch("http://127.0.0.1:5000/removeDuplicates", {
       method: "POST",
-      credentials: "include",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      body: formData,
     })
+      .then((response) => response.json())
       .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
+        toast.success(response["message"]);
         setTableCompletely(response);
       })
       .catch((err) => {
@@ -75,19 +75,19 @@ const DataTransfer = () => {
         console.log(err);
       });
   };
+  
 
   const checkMissing = () => {
+    const formData = new FormData();
+    formData.append("code", getCookie("ssid"));
+  
     fetch("http://127.0.0.1:5000/checkMissing", {
       method: "POST",
-      credentials: "include",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      body: formData,
     })
+      .then((response) => response.json())
       .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
+        toast.success(response["message"]);
         setTableCompletely(response);
       })
       .catch((err) => {
@@ -95,12 +95,13 @@ const DataTransfer = () => {
         console.log(err);
       });
   };
-
+  
   const handleNonNumericSelection = () => {
+
     if (
       document.getElementById("handleNonNum").options[
         document.getElementById("handleNonNum").selectedIndex
-      ].text === "Fill"
+      ].text == "Fill"
     ) {
       handleNonNumericFill();
     } else {
@@ -108,38 +109,44 @@ const DataTransfer = () => {
     }
   };
 
+
   const handleNonNumericFill = () => {
+    var formData = new FormData();
+    var col = document.querySelector("input[name='handleNonNum']").value;
+    formData.append("col", col);
+    formData.append("code", getCookie("ssid"));
     fetch("http://127.0.0.1:5000/handle_NonNumeric_Fill", {
       method: "POST",
-      body: {"code":getCookie("ssid"), "col":document.querySelector("input[name='']").value},
-      credentials: "include",
+      body: formData,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
+    }) .then((response) => {
+      return response.json();
     })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        setTableCompletely(JSON.parse(response["data"]));
-      })
-      .catch((err) => {
-        toast.error("Error Non Numeric Fill Columns");
-        console.log(err);
-      });
+    .then((response) => {
+      toast.success(response["message"]);
+      setTableCompletely(JSON.parse(response["data"]));
+    })
+    .catch((err) => {
+      toast.error("Error Non Numeric Fill Columns");
+      console.log(err);
+    });
   };
+
   const handleNonNumericDrop = () => {
+    var formData = new FormData();
+    var col = document.querySelector("input[name='handleNonNum']").value;
+    formData.append("col", col);
     fetch("http://127.0.0.1:5000/handle_NonNumeric_Drop", {
       method: "POST",
-      credentials: "include",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
+     body: formData,
     })
       .then((response) => {
         return response.json();
       })
       .then((response) => {
+        toast.success(response["message"]);
         setTableCompletely(response);
       })
       .catch((err) => {
@@ -147,10 +154,17 @@ const DataTransfer = () => {
         console.log(err);
       });
   };
+
+
+
+
+
   const convertNumeric = () => {
+    var formData = new FormData();
+    var code = getCookie("ssid");
     fetch("http://127.0.0.1:5000/convertNumeric", {
       method: "POST",
-      credentials: "include",
+     
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -159,6 +173,7 @@ const DataTransfer = () => {
         return response.json();
       })
       .then((response) => {
+        toast.success(response["message"]);
         setTableCompletely(response);
       })
       .catch((err) => {
@@ -169,7 +184,7 @@ const DataTransfer = () => {
   const normalizeDate = () => {
     fetch("http://127.0.0.1:5000/normalizeDate", {
       method: "POST",
-      credentials: "include",
+     
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -188,7 +203,7 @@ const DataTransfer = () => {
   const oneHot = () => {
     fetch("http://127.0.0.1:5000/oneHot", {
       method: "POST",
-      credentials: "include",
+     
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -207,7 +222,7 @@ const DataTransfer = () => {
   const getDatatypes = () => {
     fetch("http://127.0.0.1:5000/get_Col_Datatypes", {
       method: "POST",
-      credentials: "include",
+     
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -226,7 +241,7 @@ const DataTransfer = () => {
   const dropColWithoutTarget = () => {
     fetch("http://127.0.0.1:5000/drop_Rows_WO_Target", {
       method: "POST",
-      credentials: "include",
+     
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
@@ -244,13 +259,10 @@ const DataTransfer = () => {
   };
 
 const setTableFromCookie = () => {
-  useEffect(() => {
+
   setHeader(getCookie("theadData"));
   setBody(getCookie("tbodyData"));
-  
-    document.cookie = 'theadData=; Max-Age=0;expires=Thu, 01 Jan 1970 00:00:01 GMT';  
-    document.cookie = 'tbodyData=; Max-Age=0;expires=Thu, 01 Jan 1970 00:00:01 GMT';
-  })
+
 }
   return (
     <div className="relative bg-black h-auto w-screen" onLoad={setTableFromCookie}>
@@ -289,7 +301,7 @@ const setTableFromCookie = () => {
           </h1>
           <br />
           <br />
-          <form action="javascript:void" onSubmit={cleanColumns}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={cleanColumns} >
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -319,7 +331,7 @@ const setTableFromCookie = () => {
           {/* Remove Duplicates , buttons */}
           <br />
           <br />
-          <form action="javascript:void" onSubmit={deleteDuplicates}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={deleteDuplicates}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -350,7 +362,7 @@ const setTableFromCookie = () => {
           <br />
           {/* Check missing value */}
           <br />
-          <form action="javascript:void" onSubmit={checkMissing}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={checkMissing}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -381,7 +393,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* Handle non numeric */}
-          <form action="javascript:void" onSubmit={handleNonNumericSelection}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={handleNonNumericSelection}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -399,6 +411,7 @@ const setTableFromCookie = () => {
               <input
                 type="text"
                 class="form-control mb-2 pb-2"
+                name="handleNonNum"
                 placeholder="Enter Column Names"
                 style={{ borderRadius: "20px" }}
               />
@@ -435,7 +448,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* Handle numeric data   */}
-          <form action="javascript:void">
+          <form action="javascript:void" encType="multipart/form-data" >
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -478,7 +491,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* Convert to numeric  */}
-          <form action="javascript:void" onSubmit={convertNumeric}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={convertNumeric}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -508,7 +521,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* Normalize date coloumn  */}
-          <form action="javascript:void" onSubmit={normalizeDate}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={normalizeDate}>
             {" "}
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
@@ -548,7 +561,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* One hot encoding */}
-          <form action="javascript:void" onSubmit={oneHot}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={oneHot}>
             {" "}
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
@@ -588,7 +601,7 @@ const setTableFromCookie = () => {
           <br />
           <br />
           {/* Get  column data types  */}
-          <form action="javascript:void" onSubmit={getDatatypes}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={getDatatypes}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >
@@ -618,7 +631,7 @@ const setTableFromCookie = () => {
           </form>
           <br /> <br />
           {/* Drop rows without target  */}
-          <form action="javascript:void" onSubmit={dropColWithoutTarget}>
+          <form action="javascript:void" encType="multipart/form-data"  onSubmit={dropColWithoutTarget}>
             <h1
               style={{ fontSize: "25px", fontWeight: "bolder", color: "grey" }}
             >

@@ -7,9 +7,7 @@ import TrainModel from './TrainModel';
 import RunModels from './RunModels';
 
 const Models = () => {
-
-
-
+const cookieId= getCookie("ssid");
 
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -29,7 +27,7 @@ const Models = () => {
             <img src='../../../public/images/star.png' className='w-5 h-5' alt='star' />&nbsp; Subprocesses 
           </button>
            
-           <Link to="/TrainModel">  <button
+           <Link to={`/TrainModel/${cookieId}`}>  <button
             className="btn mx-2"
             style={{
               borderRadius: "20px",
@@ -43,7 +41,7 @@ const Models = () => {
           </button></Link>
         
 
-          <Link to="/transformData">
+          <Link to={`/transformData/${cookieId}`}>
             <button className="btn mx-2" style={{
               borderRadius: "20px",
               background: "white",
@@ -56,7 +54,7 @@ const Models = () => {
             </button>
           </Link>
 
-          <Link to="/RunModels">
+          <Link to={`/RunModels/${cookieId}`}>
           <button className="btn mx-2" style={{
             borderRadius: "20px",
             background: "white",

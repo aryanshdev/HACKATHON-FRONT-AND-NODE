@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import InnerNav from "./InnerNav";
 import Models from "./Models";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import DataTransfer from "./dataTransfer";
 
 export const TrainModel = () => {
   const [tableHeader, setHeader] = useState("");
@@ -12,6 +13,7 @@ export const TrainModel = () => {
     var formData = new FormData();
     var file = document.getElementById("fileUpload").files[0];
     formData.append("uploadFile", file);
+    formData.append("code", window.location.pathname.split("/")[window.location.pathname.split("/").length-1]);
     fetch("http://127.0.0.1:5000/uploadFile", {
       method: "POST",
       body: formData,
@@ -20,7 +22,7 @@ export const TrainModel = () => {
       },
     })
       .then((response) => {
-        return (response.json());
+        return response.json();
       })
       .then((response) => {
         toast.success("File Uploaded Successfully");
@@ -42,9 +44,9 @@ export const TrainModel = () => {
         }
         setBody(bodyString);
         setShowButtons(true);
-        document.cookie = "ssid=" + response["code"];
         document.cookie = "tbodyData=" + bodyString;
         document.cookie = "theadData=" + headerString;
+        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
       })
       .catch((err) => {
         toast.error("Error Uploading File");
@@ -53,6 +55,7 @@ export const TrainModel = () => {
   };
   const reqDeleteFile = () => {
     fetch("http://127.0.0.1:5000/deleteFile", {
+      body: { "code": window.location.pathname.split("/")[window.location.pathname.split("/").length-1] },
       method: "DELETE",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -72,6 +75,8 @@ export const TrainModel = () => {
         console.log(err);
       });
   };
+  document.cookie = "ssid="+window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
+
   return (
     <div className="relative bg-black h-auto w-screen">
       <div
@@ -105,7 +110,15 @@ export const TrainModel = () => {
               <div className="mb-3">
                 <br />
                 <br />
-                <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}> <i className="fa-solid fa-microchip" style={{ color: "#036EFD" }}></i> &nbsp;  Upload your Dataset file</h1><br/>
+                <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+                  {" "}
+                  <i
+                    className="fa-solid fa-microchip"
+                    style={{ color: "#036EFD" }}
+                  ></i>{" "}
+                  &nbsp; Upload your Dataset file
+                </h1>
+                <br />
                 <br />
                 <br />
                 <br />
@@ -159,21 +172,24 @@ export const TrainModel = () => {
               >
                 <i class="fa-sharp fa-solid fa-trash"></i> &nbsp; Delete File
               </button>
-              <button
-              //TODO : USE NAVIGATE TO REDIRECT TO THE NEXT PAGE
-                type="submit"
-                className="btn btn-primary"
-                style={{
-                  borderRadius: "20px",
-                  background:
-                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                  color: "white",
-                  borderColor: "#EFF2FF",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                Continue &nbsp; <i class="fa-solid fa-arrow-right"></i>
-              </button>
+              <Link to={`/transformData/${getCookie("ssid")}`}>
+                {" "}
+                <button
+                 
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{
+                    borderRadius: "20px",
+                    background:
+                      "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
+                    color: "white",
+                    borderColor: "#EFF2FF",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  Continue &nbsp; <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </Link>
             </div>
           </div>
           <div
@@ -183,9 +199,9 @@ export const TrainModel = () => {
               marginLeft: "20px",
               backgroundColor: "whitesmoke",
               borderRadius: "20px",
-              backgroundImage:"url('/images/grad1 copy.png')" ,
-            }}
-          >
+              backgroundImage: "url('/images/grad1 copy.png')",
+            }}
+          >
             <br />
             <div
               style={{
@@ -195,8 +211,15 @@ export const TrainModel = () => {
                 textAlign: "center",
               }}
             >
-            
-              <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}> <i className="fa-solid fa-file-csv" style={{ color: "#036EFD" }}></i> &nbsp; Uploaded Dataset</h1><br/>
+              <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+                {" "}
+                <i
+                  className="fa-solid fa-file-csv"
+                  style={{ color: "#036EFD" }}
+                ></i>{" "}
+                &nbsp; Uploaded Dataset
+              </h1>
+              <br />
             </div>
             <br />
             <table
@@ -206,8 +229,11 @@ export const TrainModel = () => {
                 borderRadius: "10px",
               }}
             >
-              <thead className="font-bold" dangerouslySetInnerHTML={{ __html: tableHeader }}></thead>
-              <tbody dangerouslySetInnerHTML={{ __html: tableBody} }></tbody>
+              <thead
+                className="font-bold"
+                dangerouslySetInnerHTML={{ __html: tableHeader }}
+              ></thead>
+              <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
             </table>
           </div>
         </div>
