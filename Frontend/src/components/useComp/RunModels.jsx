@@ -187,7 +187,7 @@ const RunModels = () => {
   
 
   return (
-    <div className="relative bg-black h-auto w-screen">
+    <div className="relative bg-gray-900 h-auto w-screen">
       <InnerNav />
       <Models />
       <div

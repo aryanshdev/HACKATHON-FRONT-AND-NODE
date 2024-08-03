@@ -19,12 +19,21 @@ module.exports = {
     },
     extend: {
       animation: {
-        grid: "grid 15s linear infinite",
+        grid: "grid 60s linear infinite",
+         shimmer: "shimmer 6s infinite"
       },
       keyframes: {
         grid: {
           "0%": { transform: "translateY(-50%)" },
           "100%": { transform: "translateY(0)" },
+        },
+        shimmer: {
+          "0%, 90%, 100%": {
+            "background-position": "calc(-100% - var(--shimmer-width)) 0",
+          },
+          "30%, 60%": {
+            "background-position": "calc(100% + var(--shimmer-width)) 0",
+          },
         },
       },
       colors: {

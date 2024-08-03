@@ -333,7 +333,7 @@ const setTableFromCookie = () => {
 
 }
   return (
-    <div className="relative bg-black h-auto w-screen" onLoad={setTableFromCookie}>
+    <div className="relative bg-gray-900 h-auto w-screen" onLoad={setTableFromCookie}>
       <InnerNav />
       <Models />
       <div

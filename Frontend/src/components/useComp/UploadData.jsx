@@ -5,7 +5,7 @@ import Models from "./Models";
 import { Link, useNavigate } from "react-router-dom";
 import DataTransfer from "./dataTransfer";
 
-export const TrainModel = () => {
+export const UploadData = () => {
   const [tableHeader, setHeader] = useState("");
   const [tableBody, setBody] = useState("Upload Dataset");
   const [showButtons, setShowButtons] = useState(false);
@@ -44,15 +44,6 @@ export const TrainModel = () => {
         }
         setBody(bodyString);
         setShowButtons(true);
-        setTimeout(() => {
-          document.cookie = "tbodyData=" + bodyString;
-        document.cookie = "theadData=" + headerString;
-        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
-      
-        },1500)
-        document.cookie = "tbodyData=" + bodyString;
-        document.cookie = "theadData=" + headerString;
-        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
       })
       .catch((err) => {
         toast.error("Error Uploading File");
@@ -84,7 +75,7 @@ export const TrainModel = () => {
   document.cookie = "ssid="+window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
 
   return (
-    <div className="relative bg-black h-auto w-screen">
+    <div className="relative bg-gray-900 h-auto w-screen">
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed blur-sm z-0"
         style={{ backgroundImage: "url('/images/bg1.jpg')" }}
@@ -245,4 +236,4 @@ export const TrainModel = () => {
   );
 };
 
-export default TrainModel;
+export default UploadData;
