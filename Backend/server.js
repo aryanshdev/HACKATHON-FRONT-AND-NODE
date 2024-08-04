@@ -3,7 +3,9 @@ const sql = require("sqlite3").verbose();
 const session = require("express-session");
 const passport = require("passport");
 const dotenv = require("dotenv");
+const multer  = require('multer');
 const appRouter = require("./routes/app");
+
 dotenv.config();
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -14,6 +16,7 @@ const userDB = new sql.Database("./userDB.db");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -98,15 +101,7 @@ app.get("/trainModel", (req, res) => {
     res.send("LOGGED IN");
 });
 
-app.post("/uploadFile", (req, res) => {
-  fetch(`${FLASK_URL}/uploadFile`, {
-    method:'POST',
-    body: req.body,
-    type: 'formData',
-  }).then((response) => {
-    res.send(response.data);
-  });
-});
+
 
 // app.delete("/deleteFile", (req, res) => {
 //   fetch(`${FLASK_URL}/deleteFile`, {

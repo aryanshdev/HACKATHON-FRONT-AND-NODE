@@ -12,12 +12,12 @@ function App() {
 
   return (
     <>
-      <Toaster
+    <Toaster
         position="top-right"
         toastOptions={{
           style: {
-            borderRadius: '20px',
-            background: '#333',
+            fontSize: '1.1rem',
+            background: '#222',
             color: '#fff',
           },
           success: {

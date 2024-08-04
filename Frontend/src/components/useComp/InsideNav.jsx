@@ -1,10 +1,10 @@
 import React from "react";
 import Navbar from "./Navbar";
 
-const InsideNav = (currentPage = null) => {
+const InsideNav = ({currentPage}) => {
   return (
-    <header className="w-screen h-10 rounded fixed m-auto flex top-3 justify-center">
-      <nav className="bg-white w-5/6 bg-opacity-65 h-full rounded-full flex px-4 justify-between align-middle">
+    <header className="w-screen h-12 rounded fixed m-auto flex top-3 justify-center">
+      <nav className="bg-white w-5/6 bg-opacity-65 h-full rounded-full flex px-4 justify-between align-middle items-center">
         <div className="h-full">
           <a
             className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80 h-full"
@@ -17,14 +17,48 @@ const InsideNav = (currentPage = null) => {
             />
           </a>
         </div>
-        <div>
-          <button className={"px-3 py-1 rounded-full text-sm font-semibold" + (currentPage == "Upload" ? "bg-blue-400" : "bg-white" )} >
+        <div className="flex gap-3">
+          <button
+            className={`px-4 py-1 rounded-full text-base font-semibold ${
+              currentPage == "Uploads" ? "bg-blue-500 text-white" : "bg-white"
+            }`}
+          >
             Upload Dataset
           </button>
-        </div>
-        <div>
-
-
+          <button
+            className={`px-4 py-1 rounded-full text-base font-semibold ${
+              currentPage == "Transform"
+                ? "bg-blue-500 text-white"
+                : "bg-white "
+            }`}
+          >
+            Transform Data
+          </button>
+          <button
+            className={`px-4 py-1 rounded-full text-base font-semibold ${
+              currentPage == "Train" ? "bg-blue-500 text-white" : "bg-white "
+            }`}
+          >
+            Train Model
+          </button>
+          <button
+            className={`px-4 py-1 rounded-full text-base font-semibold ${
+              currentPage == "Downlaods"
+                ? "bg-blue-500 text-white"
+                : "bg-white "
+            }`}
+          >
+            Downloads
+          </button>
+          <button
+            className={`px-4 py-1 rounded-full text-base font-semibold ${
+              currentPage == "TPOT"
+                ? "bg-blue-500 text-white"
+                : "bg-white "
+            }`}
+          >
+            TPOT
+          </button>
         </div>
       </nav>
     </header>
