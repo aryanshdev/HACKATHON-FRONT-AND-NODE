@@ -124,7 +124,7 @@ const RunModels = () => {
     data.append("param2", document.getElementById("MaxDepthXG").value);
     data.append("param3", document.getElementById("LearnRateXG").value);
     data.append("code", getCookie("ssid"));
-    fetch("http://127.0.0.1:5000/runRandomForest", {
+    fetch("http://127.0.0.1:5000/runXGBoost", {
       method: "POST",
       body: data
     }).then((response) => {
@@ -146,7 +146,7 @@ const RunModels = () => {
     data.append("param2", document.getElementById("minSampleSplitDtree").value);
     data.append("param3", document.getElementById("KernelDecisionTree").value);
     data.append("code", getCookie("ssid"));
-    fetch("http://127.0.0.1:5000/runRandomForest", {
+    fetch("http://127.0.0.1:5000/runDecision", {
       method: "POST",
       body: data
     }).then((response) => {
@@ -168,7 +168,7 @@ const RunModels = () => {
     data.append("param2", document.getElementById("MaxSampleBagging").value);
     data.append("param3", document.getElementById("MaxFeaturesBagging").value);
     data.append("code", getCookie("ssid"));
-    fetch("http://127.0.0.1:5000/runRandomForest", {
+    fetch("http://127.0.0.1:5000/runBagging", {
       method: "POST",
       body: data
     }).then((response) => {
