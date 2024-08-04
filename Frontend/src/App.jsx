@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import '../src/index.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 import { UploadData } from './components/useComp/UploadData';
@@ -9,13 +9,6 @@ import RunModels from './components/useComp/RunModels';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const [roomId, setRoomId] = useState('');
-
-  useEffect(() => {
-    const id = uuidv4();
-    setRoomId(id);
-    
-  }, []);
 
   return (
     <>
@@ -40,8 +33,8 @@ function App() {
         <Routes>
           <Route path="/" element={<RealMain />}  />
           <Route path="/UploadData/:id" element={<UploadData />} />
-          <Route path="/transformData/:id" element={<DataTransfer />} />
-          <Route path="/runmodels/:id" element={<RunModels />} />
+          <Route path="/TransformData/:id" element={<DataTransfer />} />
+          <Route path="/RunModels/:id" element={<RunModels />} />
         </Routes>
       </BrowserRouter>
     </>

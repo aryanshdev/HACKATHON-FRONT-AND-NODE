@@ -4,8 +4,8 @@ const session = require("express-session");
 const passport = require("passport");
 const dotenv = require("dotenv");
 const appRouter = require("./routes/app");
-
 dotenv.config();
+
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FLASK_URL = "http://127.0.0.1:5000";
 
@@ -30,7 +30,6 @@ function ensureAuth(req,res,next) {
     res.redirect("/");
   }  
 }
-
 
 passport.use(
   new GoogleStrategy(
@@ -58,9 +57,8 @@ passport.deserializeUser(function (obj, done) {
 });
 
 
+app.use("/app", appRouter);
 
 app.listen(10000, () => {
   console.log("SERVER LISTENING AT PORT 10,000");
 });
-
-app.use("/app", appRouter);

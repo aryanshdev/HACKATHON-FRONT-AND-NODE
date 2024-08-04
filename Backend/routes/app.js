@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const passport = require("passport");
 const uuid = require("uuid");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const ensureAuthenticated = require("../middlewares/middlewares")
+const FLASK_URL = "http://localhost:5000";
 
 router.get("/", (req, res) => {
   res.send(200);
@@ -30,7 +33,7 @@ router.get(
   })
 );
 
-router.get("/genID", (req, res) => {
+router.get("/genID", ensureAuthenticated, (req, res) => {
   req.session.id = uuid.v4();
   res.redirect(`http://localhost:5173/UploadData/${req.session.id}`);
 });
@@ -41,6 +44,16 @@ router.get("/router/trainModel", (req, res) => {
 
 router.post("/uploadFile", (req, res) => {
   fetch(`${FLASK_URL}/uploadFile`, {
+    method: "POST",
+    body: req.body,
+    type: "formData",
+  }).then((response) => {
+    res.send(response.data);
+  });
+});
+
+router.post("/deleteFile", (req, res) => {
+  fetch(`${FLASK_URL}/deleteFile`, {
     method: "POST",
     body: req.body,
     type: "formData",

@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <header className="fixed top-4 flex-wrap justify-center bg-transparent z-50 w-screen flex h-10">
+    <header className="fixed top-4 flex-wrap justify-center bg-transparent z-50 w-full flex h-10">
       <nav
         aria-label="Global"
         className="bg-gray-500 bg-opacity-25 h-12 px-3 w-2/3 xl:w-1/3 rounded-full transition-all duration-300 backdrop-blur-xl"
@@ -46,7 +46,7 @@ const Navbar = () => {
               </a>
 
               <div className="hs-dropdown [--strategy:static] md:[--strategy:fixed] [--adaptive:none] py-3 ps-px sm:px-3 md:py-4">
-                <div className="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 bg-gray-900 md:shadow-md rounded-lg p-2 before:absolute top-full before:-top-5 before:start-0 before:w-full before:h-5">
+                <div className="hs-dropdown-menu transition-[opacity,margin] duration-100 md:duration-150 hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 bg-gray-900 md:shadow-md rounded-lg p-2 before:absolute top-full before:-top-5 before:start-0 before:w-full before:h-5">
                   <a
                     className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-white hover:text-neutral-300 font-medium focus:outline-none focus:text-neutral-300"
                     href="#"
@@ -75,7 +75,7 @@ const Navbar = () => {
                       </svg>
                     </button>
 
-                    <div className="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 md:mt-2 bg-gray-900 md:shadow-md rounded-lg p-2 before:absolute before:-end-5 before:top-0 before:h-full before:w-5 !mx-[10px] top-0 end-full">
+                    <div className="hs-dropdown-menu transition-[opacity,margin] duration-100 md:duration-150 hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 md:mt-2 bg-gray-900 md:shadow-md rounded-lg p-2 before:absolute before:-end-5 before:top-0 before:h-full before:w-5 !mx-[10px] top-0 end-full">
                       <a
                         className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-white hover:text-neutral-300 font-medium focus:outline-none focus:text-neutral-300"
                         href="#"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InnerNav from "./InnerNav";
+import InsideNav from "./InsideNav";
 import Models from "./Models";
 import toast from "react-hot-toast";
 
@@ -188,7 +188,7 @@ const RunModels = () => {
 
   return (
     <div className="relative bg-gray-900 h-auto w-screen">
-      <InnerNav />
+      <InsideNav currentPage=""/>
       <Models />
       <div
         style={{

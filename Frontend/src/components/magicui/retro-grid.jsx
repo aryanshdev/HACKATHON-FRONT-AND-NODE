@@ -4,7 +4,7 @@ export default function RetroGrid() {
   return (
     <div
       className={
-        "w-screen pointer-events-none absolute h-full overflow-hidden [perspective:270px] bg-gradient-to-b from-black to-gray-950"
+        "w-full pointer-events-none absolute h-full overflow-hidden [perspective:270px] bg-gradient-to-b from-black to-gray-950"
       }
     >
       {/* Grid */}
