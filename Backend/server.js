@@ -62,7 +62,6 @@ app.use("/app", appRouter);
 app.listen(10000, () => {
   console.log("SERVER LISTENING AT PORT 10,000");
 });
-<<<<<<< HEAD
 
 app.get("/login", (req, res) => {
   fetch(`${FLASK_URL}/`)
@@ -334,5 +333,3 @@ app.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/");
 });
-=======
->>>>>>> 519ba310339c74a354ed26b885a3a6fb1ff97690
