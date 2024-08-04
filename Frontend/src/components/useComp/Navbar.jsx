@@ -7,16 +7,16 @@ const Navbar = () => {
         aria-label="Global"
         className="bg-gray-500 bg-opacity-25 h-12 px-3 w-2/3 xl:w-1/3 rounded-full transition-all duration-300 backdrop-blur-xl"
       >
-        <div className="flex items-center justify-between flex-row h-12">
-          <div>
+        <div className="flex items-center justify-between flex-row h-12 ">
+          <div className="h-full">
             <a
-              className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
+              className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80 h-full"
               href=""
               aria-label="Avenge.AI"
             >
               <img
-                src="../../../public/images/logo.png"
-                style={{ height: "50px", width: "71px" }}
+                src="../../../public/images/logo2.png"
+                className=" w-auto h-5/6"
               />
             </a>
           </div>
