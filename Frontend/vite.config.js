@@ -9,5 +9,10 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  }
+  },
+  server: {
+    proxy: {
+      "/app": "http://localhost:10000/", 
+    },
+  },
 })

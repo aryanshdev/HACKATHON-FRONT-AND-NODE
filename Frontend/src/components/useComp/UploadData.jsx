@@ -1,101 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import InnerNav from "./InnerNav";
+import InsideNav from "./InsideNav";
 import Models from "./Models";
 import { Link, useNavigate } from "react-router-dom";
 import DataTransfer from "./dataTransfer";
 
-export const TrainModel = () => {
+export const UploadData = () => {
   const [tableHeader, setHeader] = useState("");
   const [tableBody, setBody] = useState("Upload Dataset");
   const [showButtons, setShowButtons] = useState(false);
-  const handleSubmit = (e) => {
-    var formData = new FormData();
-    var file = document.getElementById("fileUpload").files[0];
-    formData.append("uploadFile", file);
-    formData.append("code", window.location.pathname.split("/")[window.location.pathname.split("/").length-1]);
-    fetch("http://127.0.0.1:5000/uploadFile", {
-      method: "POST",
-      body: formData,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        toast.success("File Uploaded Successfully");
-        response = JSON.parse(response["data"]).slice(0,15);
-        const heads = response[0];
-        let headerString = "<tr>";
-        for (var col in heads) {
-          headerString += `<td>${col}</td>`;
-        }
-        setHeader(headerString + "</tr>");
-
-        var bodyString = "";
-        for (const entry of response) {
-          bodyString += "<tr>";
-          for (var value in entry) {
-            bodyString += `<td>${entry[value]}</td>`;
-          }
-          bodyString += "</tr>";
-        }
-        setBody(bodyString);
-        setShowButtons(true);
-        setTimeout(() => {
-          document.cookie = "tbodyData=" + bodyString;
-        document.cookie = "theadData=" + headerString;
-        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
-      
-        },1500)
-        document.cookie = "tbodyData=" + bodyString;
-        document.cookie = "theadData=" + headerString;
-        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
-      })
-      .catch((err) => {
-        toast.error("Error Uploading File");
-        console.log(err);
-      });
+  const handleSubmit = async (e) => {
   };
-  const reqDeleteFile = () => {
-    fetch("http://127.0.0.1:5000/deleteFile", {
-      body: { "code": window.location.pathname.split("/")[window.location.pathname.split("/").length-1] },
-      method: "DELETE",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        toast.success("File Deleted Successfully");
-        setHeader("");
-        setBody("Upload Dataset");
-        setShowButtons(false);
-      })
-      .catch((err) => {
-        toast.error("Error Deleting File");
-        console.log(err);
-      });
+  const reqDeleteFile = async () => {
   };
-  document.cookie = "ssid="+window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
-
   return (
     <div className="relative bg-black h-auto w-screen">
+      <Toaster />
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed blur-sm z-0"
         style={{ backgroundImage: "url('/images/bg1.jpg')" }}
       ></div>
       <div className="relative z-10">
-        <InnerNav />
+        <InsideNav />
         <br />
         <Models />
         <br />
         <div
-          style={{ display: "flex", justifyContent: "space-between", flex: 1 ,  }}
+          style={{ display: "flex", justifyContent: "space-between", flex: 1 }}
           className="w-screen p-5"
         >
           <div
@@ -178,10 +109,9 @@ export const TrainModel = () => {
               >
                 <i class="fa-sharp fa-solid fa-trash"></i> &nbsp; Delete File
               </button>
-              <Link to={`/transformData/${getCookie("ssid")}`}>
+              <Link to={`/app/transformData/}`}>
                 {" "}
                 <button
-                 
                   type="submit"
                   className="btn btn-primary"
                   style={{
@@ -209,9 +139,7 @@ export const TrainModel = () => {
             }}
           >
             <br />
-            <div className="w-auto h-[80vh] overflow-scroll flex flex-col "
-              
-            >
+            <div className="w-auto h-[80vh] overflow-scroll flex flex-col ">
               <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
                 {" "}
                 <i
@@ -222,27 +150,24 @@ export const TrainModel = () => {
               </h1>
               <br />
               <table
-              className="table overflow-scroll w-full h-5/6 bg-transparent"
-              style={{
-                
-                borderRadius: "10px",
-              }}
-            >
-              <thead
-                className="font-bold"
-                dangerouslySetInnerHTML={{ __html: tableHeader }}
-              ></thead>
-              <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
-            </table>
+                className="table overflow-scroll w-full h-5/6 bg-transparent"
+                style={{
+                  borderRadius: "10px",
+                }}
+              >
+                <thead
+                  className="font-bold"
+                  dangerouslySetInnerHTML={{ __html: tableHeader }}
+                ></thead>
+                <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
+              </table>
             </div>
             <br />
-           
           </div>
         </div>
-        <Toaster />
       </div>
     </div>
   );
 };
 
-export default TrainModel;
+export default UploadData;

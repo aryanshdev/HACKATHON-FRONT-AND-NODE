@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InnerNav from "./InnerNav";
+import InsideNav from "./InsideNav";
 import Models from "./Models";
 import toast from "react-hot-toast";
 
@@ -333,8 +333,8 @@ const setTableFromCookie = () => {
 
 }
   return (
-    <div className="relative bg-black h-auto w-screen" onLoad={setTableFromCookie}>
-      <InnerNav />
+    <div className="relative bg-gray-900 h-auto w-screen" onLoad={setTableFromCookie}>
+      <InsideNav />
       <Models />
       <div
         style={{

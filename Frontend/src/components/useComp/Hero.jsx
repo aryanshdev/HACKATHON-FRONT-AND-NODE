@@ -1,6 +1,6 @@
 
 
-import '../../App.css'
+import '../../index.css'
 import RetroGrid from "@/components/magicui/retro-grid";
 
 function Hero() {
@@ -8,9 +8,10 @@ function Hero() {
 
   return (
     <>
-      <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg  ">
-        <span className="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center text-7xl font-bold leading-none tracking-tighter text-transparent">
-          Avenge.AI
+      <div className="relative w-full flex h-[75vh] flex-col items-center justify-center rounded-lg bg-gray-900"
+      >
+        <span className="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffffff] via-[#ff29e6] to-[#7c08f7] bg-clip-text text-center text-8xl font-bold h-28 text-transparent">
+          Avenge.ai
         </span>
         <RetroGrid />
       </div>

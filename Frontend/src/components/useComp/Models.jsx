@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import dataTransfer from './dataTransfer';
 import { color } from 'framer-motion';
-import TrainModel from './TrainModel';
+import UploadData from './UploadData';
 import RunModels from './RunModels';
 
 const Models = () => {
-const cookieId= getCookie("ssid");
+
 
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -27,7 +27,7 @@ const cookieId= getCookie("ssid");
             <img src='../../../public/images/star.png' className='w-5 h-5' alt='star' />&nbsp; Subprocesses 
           </button>
            
-           <Link to={`/TrainModel/${cookieId}`}>  <button
+           <Link to={`/UploadData/`}>  <button
             className="btn mx-2"
             style={{
               borderRadius: "20px",
@@ -41,7 +41,7 @@ const cookieId= getCookie("ssid");
           </button></Link>
         
 
-          <Link to={`/transformData/${cookieId}`}>
+          <Link to={`/transformData/`}>
             <button className="btn mx-2" style={{
               borderRadius: "20px",
               background: "white",
@@ -54,7 +54,7 @@ const cookieId= getCookie("ssid");
             </button>
           </Link>
 
-          <Link to={`/RunModels/${cookieId}`}>
+          <Link to={`/RunModels/`}>
           <button className="btn mx-2" style={{
             borderRadius: "20px",
             background: "white",

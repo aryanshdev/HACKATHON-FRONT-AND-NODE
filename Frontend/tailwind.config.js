@@ -7,24 +7,31 @@ module.exports = {
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
     'node_modules/preline/dist/*.js',
+    "*.html"
   ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       animation: {
-        grid: "grid 15s linear infinite",
+        grid: "grid 60s linear infinite",
+         shimmer: "shimmer 6s infinite"
       },
       keyframes: {
         grid: {
           "0%": { transform: "translateY(-50%)" },
           "100%": { transform: "translateY(0)" },
+        },
+        shimmer: {
+          "0%, 90%, 100%": {
+            "background-position": "calc(-100% - var(--shimmer-width)) 0",
+          },
+          "30%, 60%": {
+            "background-position": "calc(100% + var(--shimmer-width)) 0",
+          },
         },
       },
       colors: {
