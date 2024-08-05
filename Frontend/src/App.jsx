@@ -32,7 +32,6 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/app/TransformData/" element={<Navigate to={"/app/TransformData/"} /> } />
           <Route path="/" element={<RealMain />}  />
           <Route path="/UploadData/:id" element={<UploadData />} />
           <Route path="/TransformData/:id" element={<DataTransfer />} />

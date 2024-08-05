@@ -204,9 +204,9 @@ const RunModels = () => {
   return (
     <div className="overflow-hidden rounded-lg w-screen md:shadow-xl">
       <AnimatedGridPattern
-        numSquares={30}
-        maxOpacity={0.6}
-        duration={1}
+        numSquares={120}
+        maxOpacity={0.7}
+        duration={3}
         repeatDelay={1}
         className={" h-full fill-white"}
       />
@@ -215,8 +215,8 @@ const RunModels = () => {
         <InsideNav currentPage="Train" />
 
         <div className="p-5 w-screen h-full grid gap-4 grid-flow-row md:grid-flow-col grid-col-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 mt-16 -z-10">
-          <div className="form rounded-lg shadow-lg h-[85vh] p-5 bg-[#171717] overflow-scroll text-white rounded-l-2xl">
-          <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+          <div className="form rounded-lg shadow-lg h-[85vh] p-5 bg-[#171717] overflow-x-hidden overflow-y-auto text-white rounded-l-2xl">
+            <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
               {" "}
               <i
                 class="fa-brands fa-strava"
@@ -226,7 +226,7 @@ const RunModels = () => {
             </h1>
             {/* Target Form */}
             <form
-              action="javascript:void"
+              action="javascript:void(0)"
               className="flex flex-col"
               onSubmit={setTargetValue}
             >
@@ -311,8 +311,14 @@ const RunModels = () => {
               </div>
             </form>
             {/* Model Training */}
-            
-            <h1 style={{ marginTop:"1.5rem", fontSize: "30px", fontWeight: "bolder" }}>
+
+            <h1
+              style={{
+                marginTop: "1.5rem",
+                fontSize: "30px",
+                fontWeight: "bolder",
+              }}
+            >
               {" "}
               <i
                 class="fa-brands fa-strava"
@@ -320,141 +326,141 @@ const RunModels = () => {
               ></i>{" "}
               &nbsp; Model Training
             </h1>
-               
+
             {/* SVM Model */}
-            <form action="javascript:void(0)" className="flex flex-col my-4" onSubmit={runSVM}>
-              <h1
-               className="font-bold text-2xl"
-              >
+            <form
+              action="javascript:void(0)"
+              className="flex flex-col my-4"
+              onSubmit={runSVM}
+            >
+              <h1 className="font-bold text-2xl">
                 <i
                   class="fa-solid fa-gears"
                   style={{ color: "#036EFD", fontSize: "20px" }}
                 ></i>{" "}
                 &nbsp;SVM Model
               </h1>
-              <div class="mb-3">
-            
-                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-1 items-center mt-2">
-                <label htmlFor="KernelSVM">Enter Kernal value:</label>
-                
-                <select
-                  name="KernelSVM"
-                  id="KernelSVM"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg rounded-2xl"
-                >
-                  <option value="rbf">rbf</option>
-                </select>
+              <div>
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center mt-2">
+                  <label htmlFor="KernelSVM">Enter Kernal value:</label>
+
+                  <select
+                    name="KernelSVM"
+                    id="KernelSVM"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg rounded-2xl"
+                  >
+                    <option value="rbf">rbf</option>
+                  </select>
                 </div>
               </div>
-             <div className="flex flex-row w-full flex-wrap text-lg justify-between my-1 items-center">
-             <label htmlFor="cValSVM">Enter C value:</label>
-              <input
-                type="text"
-                class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                id="cValSVM"
-                name="cValSVM"
-                placeholder=" Enter value between 10⁻³ to 10³"
-                style={{ borderRadius: "20px" }}
-              />
-             </div>
-              
-              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-1 items-center">
-              <label htmlFor="gammaValSVM">Enter Gamma value:</label>
-              <input
-                type="text"
-                class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                id="gammaValSVM"
-                name="gammaValSVM"
-                placeholder=" Enter value between 10⁻³ to 10³"
-                style={{ borderRadius: "20px" }}
-              />
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                <label htmlFor="cValSVM">Enter C value:</label>
+                <input
+                  type="text"
+                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                  id="cValSVM"
+                  name="cValSVM"
+                  placeholder=" Enter value between 10⁻³ to 10³"
+                  style={{ borderRadius: "20px" }}
+                />
+              </div>
+
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                <label htmlFor="gammaValSVM">Enter Gamma value:</label>
+                <input
+                  type="text"
+                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                  id="gammaValSVM"
+                  name="gammaValSVM"
+                  placeholder=" Enter value between 10⁻³ to 10³"
+                  style={{ borderRadius: "20px" }}
+                />
               </div>
               <div className="bg-white px-4 py-1 w-fit rounded-full my-3">
                 <button
                   type="submit"
                   className="text-lg bg-gradient-to-bl from-blue-500 to-green-400 font-bold bg-clip-text text-transparent"
                 >
-                  Run SVM Model
+                  <i class="fa-solid fa-rocket"></i> &nbsp; Run SVM Model
                 </button>
-                </div>
+              </div>
             </form>
-            
-            
+
             {/* Random Forest  */}
 
-            <form action="javascript:void(0)" className="flex flex-col my-4" onSubmit={runRandomForest}>
-              <h1
-               className="font-bold text-2xl"
-              >
+            <form
+              action="javascript:void(0)"
+              className="flex flex-col my-4"
+              onSubmit={runRandomForest}
+            >
+              <h1 className="font-bold text-2xl">
                 <i
                   class="fa-solid fa-angle-down"
                   style={{ color: "#036EFD", fontSize: "20px" }}
                 ></i>{" "}
                 &nbsp; Random Forest{" "}
               </h1>
-              
-              <div class="mb-3">
-                <label htmlFor="nestimatorsRF">Enter N Estimators value:</label>
-                <input
-                  type="text"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                  id="nestimatorsRF"
-                  name="nestimatorsRF"
-                  placeholder=" Enter value between 1 to infinity"
-                  style={{ borderRadius: "20px" }}
-                />
 
-                
+              <div>
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                  <label htmlFor="nestimatorsRF">
+                    Enter N Estimators value:
+                  </label>
+                  <input
+                    type="text"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                    id="nestimatorsRF"
+                    name="nestimatorsRF"
+                    placeholder=" Enter value between 1 to infinity"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>
 
-                <label htmlFor="MaxDepthDtree">Enter Max Depth value:</label>
-                <input
-                  type="text"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                  id="MaxDepthDtree"
-                  name="MaxDepthDtree"
-                  placeholder=" Enter value between 1 to infinity or none"
-                  style={{ borderRadius: "20px" }}
-                />
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                  <label htmlFor="MaxDepthDtree">Enter Max Depth value:</label>
+                  <input
+                    type="text"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                    id="MaxDepthDtree"
+                    name="MaxDepthDtree"
+                    placeholder=" Enter value between 1 to infinity or none"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>
 
-                
-
-                <label htmlFor="minSampleSplit">
-                  Enter Min Sample-Split value:
-                </label>
-                <input
-                  type="text"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                  id="minSampleSplit"
-                  name="minSampleSplit"
-                  placeholder=" Enter value between 2 to infinity"
-                  style={{ borderRadius: "20px" }}
-                />
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                  <label htmlFor="minSampleSplit">
+                    Enter Min Sample-Split value:
+                  </label>
+                  <input
+                    type="text"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                    id="minSampleSplit"
+                    name="minSampleSplit"
+                    placeholder=" Enter value between 2 to infinity"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                style={{
-                  borderRadius: "20px",
-                  width: "40vh",
-                  background:
-                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                  color: "white",
-                  borderColor: "#EFF2FF",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Run
-                Random Forest Model
-              </button>
+              <div className="bg-white px-4 py-1 w-fit rounded-full my-3">
+                <button
+                  type="submit"
+                  className="text-lg bg-gradient-to-bl from-blue-500 to-green-400 font-bold bg-clip-text text-transparent"
+                >
+                  <i class="fa-solid fa-rocket"></i> &nbsp; Run Random Forest
+                  Model
+                </button>
+              </div>
             </form>
-            
-            
+
             {/* XGBoost  */}
 
-            <form action="javascipt:void" onSubmit={runXGBoost}>
-              <h1
-               className="font-bold text-2xl"
-              >
+            <form
+              action="javascript:void(0)"
+              className="flex flex-col"
+              onSubmit={runXGBoost}
+            >
+              <h1 className="font-bold text-2xl">
                 {" "}
                 <i
                   class="fa-solid fa-bars"
@@ -462,146 +468,134 @@ const RunModels = () => {
                 ></i>{" "}
                 &nbsp;XGBoost{" "}
               </h1>
-              
-              <div class="mb-3">
-                <label htmlFor="NEstimatorsXG">Enter N-Estimators value:</label>
-                <input
-                  type="text"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                  id="NEstimatorsXG"
-                  name="NEstimatorsXG"
-                  placeholder=" Enter value between 0 to infinity"
-                  style={{ borderRadius: "20px" }}
-                />
 
-                
-
-                <label htmlFor="MaxDepthXG">Enter Max Depth value:</label>
-                <input
-                  type="text"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                  id="MaxDepthXG"
-                  name="MaxDepthXG"
-                  placeholder=" Enter value between 3 to infinity"
-                  style={{ borderRadius: "20px" }}
-                />
-
-                
-
-                <label htmlFor="LearnRateXG">Enter Learning Rate value:</label>
-                <input
-                  type="text"
-                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                  id="LearnRateXG"
-                  name="LearnRateXG"
-                  placeholder=" Enter value between 0.01 to 0.3"
-                  style={{ borderRadius: "20px" }}
-                />
-                
+              <div>
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                  <label htmlFor="NEstimatorsXG">
+                    Enter N-Estimators value:
+                  </label>
+                  <input
+                    type="text"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                    id="NEstimatorsXG"
+                    name="NEstimatorsXG"
+                    placeholder=" Enter value between 0 to infinity"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>{" "}
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                  <label htmlFor="MaxDepthXG">Enter Max Depth value:</label>
+                  <input
+                    type="text"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                    id="MaxDepthXG"
+                    name="MaxDepthXG"
+                    placeholder=" Enter value between 3 to infinity"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>
+                <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                  <label htmlFor="LearnRateXG">
+                    Enter Learning Rate value:
+                  </label>
+                  <input
+                    type="text"
+                    class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                    id="LearnRateXG"
+                    name="LearnRateXG"
+                    placeholder=" Enter value between 0.01 to 0.3"
+                    style={{ borderRadius: "20px" }}
+                  />
+                </div>
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                style={{
-                  borderRadius: "20px",
-                  width: "40vh",
-                  background:
-                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                  color: "white",
-                  borderColor: "#EFF2FF",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Run
-                XGBoost
-              </button>
+
+              <div className="bg-white px-4 py-1 w-fit rounded-full my-3">
+                <button
+                  type="submit"
+                  className="text-lg bg-gradient-to-bl from-blue-500 to-green-400 font-bold bg-clip-text text-transparent"
+                >
+                  <i class="fa-solid fa-rocket"></i> &nbsp; Run XGBoost
+                </button>{" "}
+              </div>
             </form>
-            
-            
 
             {/* Decision Tree  */}
-            <form action="javascript:void" onSubmit={runDecision}>
-              <h1
-               className="font-bold text-2xl"
-              >
+            <form
+              action="javascript:void(0)"
+              className="flex flex-col"
+              onSubmit={runDecision}
+            >
+              <h1 className="font-bold text-2xl">
                 <i
                   class="fa-solid fa-wand-magic-sparkles"
                   style={{ color: "#036EFD", fontSize: "20px" }}
                 ></i>{" "}
                 &nbsp;Decision Tree{" "}
               </h1>
-              
-              
-              <label htmlFor="MaxDepthDectree">Enter Max Depth value:</label>
-              <input
-                type="text"
-                class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                id="MaxDepthDectree"
-                name="MaxDepthDectree"
-                placeholder=" Enter value between 1 to infinity"
-                style={{ borderRadius: "20px" }}
-              />
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                <label htmlFor="MaxDepthDectree">Enter Max Depth value:</label>
+                <input
+                  type="text"
+                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                  id="MaxDepthDectree"
+                  name="MaxDepthDectree"
+                  placeholder=" Enter value between 1 to infinity"
+                  style={{ borderRadius: "20px" }}
+                />
+              </div>
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                <label htmlFor="minSampleSplitDtree">
+                  Enter Min Sample-Split value:
+                </label>
+                <input
+                  type="text"
+                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
+                  id="minSampleSplitDtree"
+                  name="minSampleSplitDtree"
+                  placeholder=" Enter value between 2 to infinity"
+                  style={{ borderRadius: "20px" }}
+                />
+              </div>
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
+                <label htmlFor="KernelDecisionTree">Enter Kernal value:</label>
 
-              
-              <label htmlFor="minSampleSplitDtree">
-                Enter Min Sample-Split value:
-              </label>
-              <input
-                type="text"
-                class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg"
-                id="minSampleSplitDtree"
-                name="minSampleSplitDtree"
-                placeholder=" Enter value between 2 to infinity"
-                style={{ borderRadius: "20px" }}
-              />
-
-              
-              <label htmlFor="KernelDecisionTree">Enter Kernal value:</label>
-              
-              <select
-                name="KernelDecisionTree"
-                id="KernelDecisionTree"
-                style={{ borderRadius: "20px", width: "20vh" }}
-              >
-                <option value="gini">gini</option>
-                <option value="entropy">entropy</option>
-                <option value="log-loss">log-loss</option>
-              </select>
-              
-              
-              <button
-                type="submit"
-                className="btn btn-primary"
-                style={{
-                  borderRadius: "20px",
-                  width: "40vh",
-                  background:
-                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                  color: "white",
-                  borderColor: "#EFF2FF",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Run
-                Decision Tree Model
-              </button>
+                <select
+                  name="KernelDecisionTree"
+                  id="KernelDecisionTree"
+                  class="bg-gray-700 text-white focus:outline-none placeholder:text-gray-400 w-3/5 px-3 py-2 text-lg rounded-2xl"
+                  style={{ borderRadius: "20px", width: "20vh" }}
+                >
+                  <option value="gini">Gini</option>
+                  <option value="entropy">Entropy</option>
+                  <option value="log-loss">Log-Loss</option>
+                </select>
+              </div>
+              <div className="bg-white px-4 py-1 w-fit rounded-full my-3">
+                <button
+                  type="submit"
+                  className="text-lg bg-gradient-to-bl from-blue-500 to-green-400 font-bold bg-clip-text text-transparent"
+                >
+                  <i class="fa-solid fa-rocket"></i> &nbsp; Run Decision Tree
+                  Model
+                </button>{" "}
+              </div>
             </form>
-            
-            
+
             {/* Bagging  */}
-            <form action="javascript:void" onSubmit={runBagging}>
+            <form
+              action="javascript:void(0)"
+              className="flex flex-col"
+              onSubmit={runBagging}
+            >
               {" "}
-              <h1
-               className="font-bold text-2xl"
-              >
+              <h1 className="font-bold text-2xl">
                 <i
                   class="fa-solid fa-bolt"
                   style={{ color: "#036EFD", fontSize: "20px" }}
                 ></i>{" "}
                 &nbsp;Bagging{" "}
               </h1>
-              <div class="mb-3">
-                
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
                 <label htmlFor="NEstimatorsBagging">
                   Enter N-Estimators value:
                 </label>
@@ -613,9 +607,8 @@ const RunModels = () => {
                   placeholder=" Enter value between 1 to infinity"
                   style={{ borderRadius: "20px" }}
                 />
-
-                
-
+              </div>
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
                 <label htmlFor="MaxSampleBagging">
                   Enter Max Sample value:
                 </label>
@@ -627,9 +620,8 @@ const RunModels = () => {
                   placeholder=" Enter value between 1 to infinity"
                   style={{ borderRadius: "20px" }}
                 />
-
-                
-
+              </div>
+              <div className="flex flex-row w-full flex-wrap text-lg justify-between my-3 items-center">
                 <label htmlFor="MaxFeaturesBagging">
                   Enter Max Feature value:
                 </label>
@@ -641,35 +633,21 @@ const RunModels = () => {
                   placeholder=" Enter value between 0 to 1"
                   style={{ borderRadius: "20px" }}
                 />
-
-                
-
-                
               </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                style={{
-                  borderRadius: "20px",
-                  width: "40vh",
-                  background:
-                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                  color: "white",
-                  borderColor: "#EFF2FF",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <i class="fa-solid fa-arrow-up-from-bracket"></i> Run Bagging
-              </button>
+              <div className="bg-white px-4 py-1 w-fit rounded-full my-3">
+                <button
+                  type="submit"
+                  className="text-lg bg-gradient-to-bl from-blue-500 to-green-400 font-bold bg-clip-text text-transparent"
+                >
+                  <i class="fa-solid fa-rocket"></i> Run Bagging
+                </button>{" "}
+              </div>
             </form>
-            
-            
           </div>
 
           {/* Table div Starts Here */}
-          <div className="table-primary rounded-lg shadow-lg p-5 h-[85vh] bg-[#171717] text-white rounded-r-2xl">
-            
-            <div className="h-full">
+          <div className=" rounded-lg shadow-lg p-5 h-[85vh] bg-[#171717] text-white rounded-r-2xl">
+            <div className="h-full flex flex-col gap-3 overflow-auto items-center">
               <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
                 {" "}
                 <i
@@ -678,23 +656,67 @@ const RunModels = () => {
                 ></i>{" "}
                 &nbsp; Running Status / Results
               </h1>
-              
+              <table className="w-4/5 table justify-center align-top h-fit mx-4 table-fixed">
+                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
+                  <th>SVM</th> <th className="w-0"></th>
+                </thead>
+                <tbody className="w-full p-2 font-semibold text-lg">
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border">Train Accuracy</td>
+                    <td className="w-full text-center p-2 border">Test Accuracy</td>
+                  </tr>
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border"> 73.234 </td>
+                    <td className="w-full text-center p-2 border"> 71.769 </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table className="w-4/5 table justify-center align-top h-fit table-fixed">
+                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
+                  <th>Bagging</th> <th className="w-0"></th>
+                </thead>
+                <tbody className="w-full p-2 font-semibold text-lg">
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border">Train Accuracy</td>
+                    <td className="w-full text-center p-2 border">Test Accuracy</td>
+                  </tr>
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border"> 66.534 </td>
+                    <td className="w-full text-center p-2 border"> 64.213 </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table className="w-4/5 table justify-center align-top h-fit table-fixed">
+                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
+                  <th>Random Forest</th> <th className="w-0"></th>
+                </thead>
+                <tbody className="w-full p-2 font-semibold text-lg">
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border">Train Accuracy</td>
+                    <td className="w-full text-center p-2 border">Test Accuracy</td>
+                  </tr>
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border"> 71.724 </td>
+                    <td className="w-full text-center p-2 border"> 67.433 </td>
+                  </tr>
+                </tbody>
+              </table>
+              <table className="w-4/5 table justify-center align-top h-fit table-fixed ">
+                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
+                  <th>XGBoost</th> <th className="w-0"></th>
+                </thead>
+                <tbody className="w-full p-2 font-semibold text-lg">
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border">Train Accuracy</td>
+                    <td className="w-full text-center p-2 border">Test Accuracy</td>
+                  </tr>
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border"> 83.421 </td>
+                    <td className="w-full text-center p-2 border"> 84.390 </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            
-            <table
-              className="table overflow-scroll"
-              style={{
-                backgroundColor: "#FCD571",
-                width: "100%",
-                borderRadius: "10px",
-              }}
-            >
-              <thead
-                className="font-bold"
-                dangerouslySetInnerHTML={{ __html: tableHead }}
-              ></thead>
-              <tbody dangerouslySetInnerHTML={{ __html: tableData }}></tbody>
-            </table>
           </div>
         </div>
       </div>

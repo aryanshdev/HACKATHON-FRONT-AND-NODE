@@ -55,20 +55,20 @@ export const UploadData = () => {
   return (
     <div className="overflow-hidden rounded-lg w-screen md:shadow-xl">
       <AnimatedGridPattern
-        numSquares={30}
+        numSquares={50}
         maxOpacity={0.6}
         duration={1}
         repeatDelay={1}
         className={cn(" h-full fill-white")}
       />
 
-      <div className="relative z-50">
+      <div className="relative z-50 pt-5">
         <InsideNav currentPage="Uploads" />
         <br />
 
         <br />
         <div className="grid grid-flow-row md:grid-flow-row grid-cols-1 md:grid-cols-2 justify-center items-center h-full gap-4 p-2 md:p-5">
-          <div className="form rounded-l-2xl bg-[#171717] text-white shadow-lg p-5 h-[80vh] ">
+          <div className="form rounded-l-2xl bg-[#171717] text-white shadow-lg p-5 h-[85vh] ">
             <form
               onSubmit={handleSubmit}
               encType="multipart/form-data"
@@ -112,9 +112,8 @@ export const UploadData = () => {
                 <div className="h-auto">
                   <div
                     className={
-                      "h-full flex gap-3 flex-row " + showButtons
-                        ? "block"
-                        : "hidden"
+                      "h-full flex gap-10 flex-row " +
+                      (showButtons ? "block" : "hidden")
                     }
                   >
                     <div className="bg-white px-4 py-2 w-fit rounded-full">
@@ -143,10 +142,9 @@ export const UploadData = () => {
               </div>
             </form>
           </div>
-          <div className="table-primary rounded-lg shadow-lg h-[80vh] bg-[#171717] text-white  rounded-r-2xl">
-            
-            <div className="w-auto h-full flex flex-col justify-center align-middle">
-            <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+          <div className="table-primary rounded-lg shadow-lg h-[85vh] bg-[#171717] text-white  rounded-r-2xl">
+            <div className="w-auto h-full flex flex-col justify-center align-middle p-2">
+              <h1 style={{ fontSize: "30px", fontWeight: "bolder" , }} className="px-2">
                 {" "}
                 <i
                   className="fa-solid fa-file-csv"
@@ -154,7 +152,7 @@ export const UploadData = () => {
                 ></i>{" "}
                 &nbsp; Uploaded Dataset
               </h1>
-             <div className="flex w-full h-full overflow-scroll ">
+              <div className="flex w-full h-full overflow-auto ">
                 <table className=" h-5/6 overflow-scroll table-auto bg-transparent max-w-5/6 max-h-5/6 border-separate">
                   <thead
                     className="font-bold text-white bg-gray-800 p-2"
