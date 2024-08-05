@@ -143,9 +143,9 @@ export const UploadData = () => {
             </form>
           </div>
           <div className="table-primary rounded-lg shadow-lg h-[80vh] bg-[#171717] text-white  rounded-r-2xl">
-            <br />
+            
             <div className="w-auto h-full flex flex-col justify-center align-middle">
-              <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+            <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
                 {" "}
                 <i
                   className="fa-solid fa-file-csv"
@@ -153,8 +153,7 @@ export const UploadData = () => {
                 ></i>{" "}
                 &nbsp; Uploaded Dataset
               </h1>
-              <br />
-              <div className="flex w-full h-full overflow-scroll ">
+             <div className="flex w-full h-full overflow-scroll ">
                 <table className=" h-5/6 overflow-scroll table-auto bg-transparent max-w-5/6 max-h-5/6 border-separate">
                   <thead
                     className="font-bold text-white bg-gray-800 p-2"

@@ -41,7 +41,7 @@ const DataTransfer = () => {
     const formData = new FormData();
     formData.append("code", getCookie("ssid"));
 
-    fetch("http://127.0.0.1:5000/cleanColumnNames", {
+    fetch("/app/cleanColumnNames", {
       method: "POST",
       body: formData,
       credentials: "include", // Include this line if you need to send cookies with the request
@@ -62,7 +62,7 @@ const DataTransfer = () => {
     const formData = new FormData();
     formData.append("code", getCookie("ssid"));
 
-    fetch("http://127.0.0.1:5000/removeDuplicates", {
+    fetch("/app/removeDuplicates", {
       method: "POST",
       body: formData,
     })
@@ -80,7 +80,7 @@ const DataTransfer = () => {
   const checkMissingValuesForColumns = () => {
     const formData = new FormData();
     formData.append("code", getCookie("ssid"));
-    fetch("http://127.0.0.1:5000/checkMissing", {
+    fetch("/app/checkMissing", {
       method: "POST",
       body: formData,
     })
@@ -113,7 +113,7 @@ const DataTransfer = () => {
     var col = document.querySelector("input[name='handleNonNum']").value;
     formData.append("col", col);
     formData.append("code", getCookie("ssid"));
-    fetch("http://127.0.0.1:5000/handle_NonNumeric_Fill", {
+    fetch("/app/handle_NonNumeric_Fill", {
       method: "POST",
       body: formData,
       headers: {
@@ -138,7 +138,7 @@ const DataTransfer = () => {
     var col = document.querySelector("input[name='handleNonNum']").value;
     formData.append("code", getCookie("ssid"));
     formData.append("col", col);
-    fetch("http://127.0.0.1:5000/handle_NonNumeric_Drop", {
+    fetch("/app/handle_NonNumeric_Drop", {
       method: "POST",
       body: formData,
     })
@@ -163,7 +163,7 @@ const DataTransfer = () => {
     ).value;
     formData.append("col", col);
     formData.append("code", code);
-    fetch("http://127.0.0.1:5000/handle_Numeric_Missing", {
+    fetch("/app/handle_Numeric_Missing", {
       method: "POST",
       body: formData,
     })
@@ -186,7 +186,7 @@ const DataTransfer = () => {
     var col = document.querySelector("input[name='dropColumnName']").value;
     formData.append("col", col);
     formData.append("code", code);
-    fetch("http://127.0.0.1:5000/dropColumn", {
+    fetch("/app/dropColumn", {
       method: "POST",
       body: formData,
     })
@@ -206,7 +206,7 @@ const DataTransfer = () => {
   const showManipulatedDataFromServer = () => {
     const formData = new FormData();
     formData.append("code", getCookie("ssid"));
-    fetch("http://127.0.0.1:5000/cleanColumnNames", {
+    fetch("/app/cleanColumnNames", {
       method: "GET",
       body: formData, // Include this line if you need to send cookies with the request
     })
@@ -227,7 +227,7 @@ const DataTransfer = () => {
     formData.append("code", getCookie("ssid"));
     var col = document.querySelector("input[name='convertNumeric']").value;
     formData.append("col", col);
-    fetch("http://127.0.0.1:5000/convertNumeric", {
+    fetch("/app/convertNumeric", {
       method: "POST",
       body: formData,
     })
@@ -250,7 +250,7 @@ const DataTransfer = () => {
       "col",
       document.querySelector("input[name='dateColName']").value
     );
-    fetch("http://127.0.0.1:5000/normalizeDate", {
+    fetch("/app/normalizeDate", {
       method: "POST",
       body: formData,
       headers: {
@@ -275,7 +275,7 @@ const DataTransfer = () => {
       "col",
       document.querySelector("input[name='onehotColNum']").value
     );
-    fetch("http://127.0.0.1:5000/oneHot", {
+    fetch("/app/oneHot", {
       method: "POST",
       body: formData,
     })
@@ -297,7 +297,7 @@ const DataTransfer = () => {
       "col",
       document.querySelector("input[name='dateColName']").value
     );
-    fetch("http://127.0.0.1:5000/get_Col_Datatypes", {
+    fetch("/app/get_Col_Datatypes", {
       method: "POST",
     })
       .then((response) => {
@@ -318,7 +318,7 @@ const DataTransfer = () => {
       "col",
       document.querySelector("input[name='dropColWOTarget']").value
     );
-    fetch("http://127.0.0.1:5000/drop_Rows_WO_Target", {
+    fetch("/app/drop_Rows_WO_Target", {
       method: "POST",
       body: formData,
       headers: {
@@ -350,22 +350,380 @@ const DataTransfer = () => {
       <InsideNav />
       <div className="text-white flex flex-row justify-center items-center w-screen p-10 bg-black">
         <div className="grid grid-cols-2 gap-4 py-10">
-          <div className="h-full"></div>
+          <div className="h-full">
+          <div
+          className="form rounded-lg shadow-lg p-5 h-[80vh] overflow-y-scroll bg-[#171717] text-white"
+         
+        >
+          {/* Left form div Stands here */}
+          {/* Clean columns */}
+          <br />
+          <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+            {" "}
+            <i
+              className="fa-solid fa-file-zipper"
+              style={{ color: "#036EFD" }}
+            ></i>{" "}
+            &nbsp; Data Transformation
+          </h1>
+          <br />
+          <br />
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={cleanColumns} >
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-broom "
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Clean Column Names{" "}
+            </h1>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i>&nbsp; Clean
+              Column Names
+            </button>
+          </form>
+          {/* Remove Duplicates , buttons */}
+          <br />
+          <br />
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={deleteDuplicates}>
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-eraser"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Remove Duplicate Rows{" "}
+            </h1>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i>&nbsp; Remove
+              Duplicate Rows
+            </button>
+          </form>
+          <br />
+          <br />
+          {/* Check missing value */}
+          <br />
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={checkMissingValuesForColumns}>
+            <h1
+             className="font-bold text-2xl"
+            >
+              {" "}
+              <i
+                class="fa-solid fa-circle-check"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Check Missing Values For Columns
+            </h1>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Check
+              Missing Values For Columns
+            </button>
+          </form>
+          <br />
+          <br />
+          {/* Handle non numeric */}
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={handleNonNumericSelection}>
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-angle-down"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp; Handle Missing Non Numeric Data{" "}
+            </h1>
+            <br />
+            <div class="mb-1 flex flex-col items-center">
+              <button onClick={showManipulatedDataFromServer} className="btn btn-primary"
+              >Show Table Again</button>
+              <label htmlFor="">
+                Enter Non Numeric Column Names, Comma Separated
+              </label>
+              <input
+                type="text"
+                class="form-control mb-2 pb-2"
+                name="handleNonNum"
+                placeholder="Enter Column Names"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+           
+            <div class="dropdown mt-2 p-0 flex flex-col justify-center items-center align-middle">
+            <label htmlFor="handleNonNum"> Select whether to Drop of Fill Data </label>
+              <select
+                name="handleNonNum"
+                id="handleNonNum"
+                className="w-64 my-2 p-2 rounded-2xl"
+              >
+                <option value="fill">Fill</option>
+                <option value="fill" selected>
+                  Drop
+                </option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Handle
+              Non Numeric
+            </button>
+          </form>
+          <br />
+          <br />
+          {/* Handle numeric data   */}
+          <form action="javascript:void(0)" onSubmit={handleNumericMissing} encType="multipart/form-data" >
+            <h1
+             className="font-bold text-2xl"
+            >
+              {" "}
+              <i
+                class="fa-solid fa-bars"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Handle missing numeric data{" "}
+            </h1>
+            <br />
+            <div class="mb-3">
+              <label htmlFor="">
+                Enter Numeric Column Names To Be Filled By Median Values
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="handleNumericMissing"
+                placeholder="Enter Column Name Value"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Handle
+              numeric data median
+            </button>
+          </form>
+          <br />
+          <br />
+         
+          <br />
+          {/* Convert to numeric  */}
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={convertNumeric}>
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-wand-magic-sparkles"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Convert to numeric{" "}
+            </h1>
+            <div class="mb-3">
+              <label htmlFor="">Enter Date Column Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="convertNumeric"
+                placeholder="Enter Date Column Name"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Covert to
+              numeric
+            </button>
+          </form>
+          <br />
+          <br />
+          {/* Normalize date coloumn  */}
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={normalizeDate}>
+            {" "}
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-bolt"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Normalize date coloumn{" "}
+            </h1>
+            <div class="mb-3">
+              <label htmlFor="">Enter Date Column Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="dateColName"
+                placeholder="Enter Date Column Name"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> Normalize date
+              coloumn
+            </button>
+          </form>
+          <br />
+          <br />
+           {/* Handle Delete Column   */}
+           <form action="javascript:void(0)" onSubmit={handleDeleteCol} encType="multipart/form-data" >
+            <h1
+             className="font-bold text-2xl"
+            >
+              {" "}
+              <i
+                class="fa-solid fa-bars"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Drop Columns{" "}
+            </h1>
+            <br />
+            <div class="mb-3">
+              <label htmlFor="">
+                Enter Column Names, Comma Separated, To Drop
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="dropColumnName"
+                placeholder="Enter Column Names"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Drop Columns
+            </button>
+          </form>
+          <br />
+          {/* One hot encoding */}
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={oneHot}>
+            {" "}
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-fire"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;One hot encoding
+            </h1>
+            <div class="mb-3">
+              <label htmlFor="">Enter Target Column Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="onehotColNum"
+                placeholder="Enter Column Name"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; &nbsp;
+              One Hot
+            </button>
+          </form>
+          <br />
+          <br />
+          {/* Get  column data types  */}
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={getDatatypes}>
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-folder-open "
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>{" "}
+              &nbsp;Get coloumn data types{" "}
+            </h1>
+
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp; Get
+              Coloumn Data Types
+            </button>
+          </form>
+          <br /> <br />
+          {/* Drop rows without target  */}
+          <form action="javascript:void(0)" encType="multipart/form-data"  onSubmit={dropColWithoutTarget}>
+            <h1
+             className="font-bold text-2xl"
+            >
+              <i
+                class="fa-solid fa-layer-group"
+                style={{ color: "#036EFD", fontSize: "20px" }}
+              ></i>
+              &nbsp;&nbsp;Drop rows without target{" "}
+            </h1>
+            <div class="mb-3">
+              <label htmlFor="">Enter Target Columns to Drop</label>
+              <input
+                type="text"
+                class="form-control"
+                name="dropColWOTarget"
+                placeholder="Enter Value"
+                style={{ borderRadius: "20px" }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              
+            >
+              <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp;Drop rows
+              without target
+            </button>
+          </form>
+        </div>
+          </div>
 
           {/* Table div Starts Here */}
-          <div className="table-primary rounded-lg shadow-lg h-[80vh] bg-[#171717] text-white p-5 rounded-r-2xl">
-            <br />
-            <div className="w-auto h-full flex flex-col ">
-              <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
+          <div className="table-primary rounded-lg shadow-lg h-[80vh] bg-[#171717] text-white  rounded-r-2xl">
+            
+            <div className="w-auto h-full flex flex-col justify-center align-middle">
+            <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
                 {" "}
                 <i
-                  className="fa-solid fa-file-csv"
+                  className="fa-solid fa-file-csv p-4"
                   style={{ color: "#036EFD" }}
-                ></i>{" "}
+                ></i>{""}
                 &nbsp; Uploaded Dataset
               </h1>
-              <br />
-              <div className="flex w-full h-full overflow-scroll ">
+             <div className="flex w-full h-full overflow-scroll ">
                 <table className=" h-5/6 overflow-scroll table-auto bg-transparent max-w-5/6 max-h-5/6 border-separate">
                   <thead
                     className="font-bold text-white bg-gray-800 p-2"
