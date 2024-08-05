@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 const InsideNav = ({currentPage}) => {
   return (
     <header className="w-screen h-12 rounded fixed m-auto flex top-3 justify-center">
-      <nav className="bg-white w-5/6 bg-opacity-65 h-full rounded-full flex px-4 justify-between align-middle items-center">
+      <nav className="bg-white w-5/6 bg-opacity-25 backdrop-blur-sm h-full rounded-full flex px-4 justify-between align-middle items-center">
         <div className="h-full">
           <a
             className="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80 h-full"

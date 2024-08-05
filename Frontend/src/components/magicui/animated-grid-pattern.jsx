@@ -12,8 +12,8 @@ export function GridPattern({
   strokeDasharray = 0,
   numSquares = 50,
   className,
-  maxOpacity = 0.75,
-  duration = 1,
+  maxOpacity = 0.5,
+  duration = 4,
   repeatDelay = 0.5,
   ...props
 }) {
@@ -119,7 +119,7 @@ export function GridPattern({
             height={height - 1}
             x={x * width + 1}
             y={y * height + 1}
-            fill="currentColor"
+            fill="#333"
             strokeWidth="0" />
         ))}
       </svg>

@@ -7,7 +7,7 @@ import MainHeader from "./MainHeader";
 import GoogleSignInSection from "./GoogleSignInSection";
 const RealMain = () => {
   return (
-    <div className="w-screen p-0! m-0! overflow-hidden bg-black border-2">
+    <div className="w-screen! top-0 left-0 p-0! m-0! overflow-hidden bg-black">
       {/* Main page where all the landing compoents are being rendered */}
       <Navbar />
       <Hero />

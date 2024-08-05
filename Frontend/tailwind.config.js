@@ -17,7 +17,7 @@ module.exports = {
     },
     extend: {
       animation: {
-        grid: "grid 60s linear infinite",
+        grid: "grid 45s linear infinite",
          shimmer: "shimmer 6s infinite"
       },
       keyframes: {

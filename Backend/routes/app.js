@@ -65,6 +65,10 @@ router.post("/uploadFile", uploadLocation.single("uploadFile"),  (req, res) => {
   });
 });
 
+router.get("/transformData", (req, res) => {
+  res.redirect("http://localhost:5173/TransformData/"+req.session.id);
+});
+
 router.post("/deleteFile", (req, res) => {
   fetch(`${FLASK_URL}/deleteFile`, {
     method: "POST",

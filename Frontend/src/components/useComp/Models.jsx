@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import dataTransfer from './dataTransfer';
+import dataTransfer from './DataTransfer';
 import { color } from 'framer-motion';
 import UploadData from './UploadData';
 import RunModels from './RunModels';

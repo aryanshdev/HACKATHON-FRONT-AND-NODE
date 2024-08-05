@@ -3,7 +3,7 @@ import { toast, Toaster } from "react-hot-toast";
 import InsideNav from "./InsideNav";
 import Models from "./Models";
 import { Link, useNavigate } from "react-router-dom";
-import DataTransfer from "./dataTransfer";
+import DataTransfer from "./DataTransfer";
 import AnimatedGridPattern from "../magicui/animated-grid-pattern";
 import { cn } from "../../lib/utils";
 
@@ -45,34 +45,28 @@ export const UploadData = () => {
         }
         setBody(bodyString);
         setShowButtons(true);
-        document.cookie = "tbodyData=" + bodyString;
-        document.cookie = "theadData=" + headerString;
-        document.cookie = "ssid=" + window.location.pathname.split("/")[window.location.pathname.split("/").length-1];
       })
       .catch((err) => {
         toast.error("Error Uploading File");
-        console.log(err);
       });
   };
   const reqDeleteFile = async () => {};
   return (
-    <div className="relative bg-black h-auto min-h-screen w-screen p-6">
+    <div className="overflow-hidden rounded-lg w-screen md:shadow-xl">
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.6}
         duration={1}
         repeatDelay={1}
-        className={cn("inset-x-0 inset-y-[-30%] h-[200%] skew-y-12")}
+        className={cn(" h-full fill-white")}
       />
 
-    
-      <InsideNav currentPage="Uploads"></InsideNav>
       <div className="relative z-50">
         <InsideNav currentPage="Uploads" />
         <br />
 
         <br />
-        <div className="grid grid-cols-2 justify-center items-center h-full gap-4 p-5">
+        <div className="grid grid-flow-row md:grid-flow-row grid-cols-1 md:grid-cols-2 justify-center items-center h-full gap-4 p-2 md:p-5">
           <div className="form rounded-l-2xl bg-[#171717] text-white shadow-lg p-5 h-[80vh] ">
             <form
               onSubmit={handleSubmit}
@@ -80,7 +74,7 @@ export const UploadData = () => {
               action="javascript:void(0)"
               className="flex flex-col h-full justify-evenly align-middle items-center"
             >
-              <div className="mb-3 flex flex-col h-full justify-evenly ">
+              <div className="mb-3 flex flex-col h-full justify-around align-center items-center ">
                 <br />
                 <br />
                 <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
@@ -93,8 +87,8 @@ export const UploadData = () => {
                 </h1>
 
                 <input
-                 required
-                  class=" rounded-xl block w-1/2 text-sm  border cursor-pointer  text-white focus:outline-none bg-gradient-to-tr from-blue-600 to-green-700 dark:placeholder-gray-300 file:p-2 file:m-0 file:rounded-xl file:outline-none file:border-none file:mr-2"
+                  required
+                  class=" rounded-xl block w-3/4 text-sm  border cursor-pointer  text-white focus:outline-none bg-gradient-to-tr from-blue-600 to-green-700 dark:placeholder-gray-300 file:p-2 file:m-0 file:rounded-xl file:outline-none file:border-none file:mr-2 file:rounded-r-none font-semibold"
                   accept=".csv,.xlsx,.xls"
                   id="uploadFile"
                   type="file"
@@ -105,49 +99,52 @@ export const UploadData = () => {
                 </div>
                 <br />
                 <br />
-                <button type="submit" className="m-auto bg-">
-                  <i className="fa-solid fa-cloud-arrow-up"></i> &nbsp; Upload
-                  File
-                </button>
+                <div className="bg-white px-4 py-2 w-fit rounded-full">
+                  <button
+                    type="submit"
+                    className="mx-auto bg-gradient-to-bl from-blue-700 to-green-500 bg-clip-text text-transparent font-bold"
+                  >
+                    <i className="fa-solid fa-cloud-arrow-up"></i> &nbsp; Upload
+                    File
+                  </button>
+                </div>
+                <div className="h-auto">
+                  <div
+                    className={
+                      "h-full flex gap-3 flex-row " + showButtons
+                        ? "block"
+                        : "hidden"
+                    }
+                  >
+                    <div className="bg-white px-4 py-2 w-fit rounded-full">
+                      <button
+                        onClick={reqDeleteFile}
+                        className="mx-auto bg-gradient-to-bl from-blue-700 to-green-500 bg-clip-text text-transparent font-bold"
+                      >
+                        <i class="fa-sharp fa-solid fa-trash"></i> &nbsp; Delete
+                        File
+                      </button>
+                    </div>
+                    <Link to={`/app/TransformData/`}>
+                      {" "}
+                      <div className="bg-white px-4 py-2 w-fit rounded-full">
+                        <button
+                          onClick={reqDeleteFile}
+                          className="mx-auto bg-gradient-to-bl from-blue-700 to-green-500 bg-clip-text text-transparent font-bold"
+                        >
+                          Continue &nbsp;{" "}
+                          <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </form>
-            <div className={showButtons ? "block" : "hidden"}>
-              <button
-                onClick={reqDeleteFile}
-                className="btn btn-primary"
-                style={{
-                  borderRadius: "20px",
-                  background:
-                    "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                  color: "white",
-                  borderColor: "#EFF2FF",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <i class="fa-sharp fa-solid fa-trash"></i> &nbsp; Delete File
-              </button>
-              <Link to={`/app/transformData/}`}>
-                {" "}
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  style={{
-                    borderRadius: "20px",
-                    background:
-                      "radial-gradient(circle, rgba(157,86,224,1) 0%, rgba(253,130,85,1) 100%)",
-                    color: "white",
-                    borderColor: "#EFF2FF",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                  }}
-                >
-                  Continue &nbsp; <i class="fa-solid fa-arrow-right"></i>
-                </button>
-              </Link>
-            </div>
           </div>
-          <div className="table-primary rounded-lg shadow-lg h-[80vh] bg-[#171717] text-white p-5 rounded-r-2xl">
+          <div className="table-primary rounded-lg shadow-lg h-[80vh] bg-[#171717] text-white  rounded-r-2xl">
             <br />
-            <div className="w-auto h-full flex flex-col ">
+            <div className="w-auto h-full flex flex-col justify-center align-middle">
               <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
                 {" "}
                 <i
@@ -157,18 +154,18 @@ export const UploadData = () => {
                 &nbsp; Uploaded Dataset
               </h1>
               <br />
-           <div className="flex w-full h-full overflow-scroll ">
-           <table
-                className=" h-5/6 overflow-scroll table-auto bg-transparent max-w-5/6 max-h-5/6 border-separate"
-               
-              >
-                <thead
-                  className="font-bold text-white"
-                  dangerouslySetInnerHTML={{ __html: tableHeader }}
-                ></thead>
-                <tbody dangerouslySetInnerHTML={{ __html: tableBody }}></tbody>
-              </table>
-           </div>
+              <div className="flex w-full h-full overflow-scroll ">
+                <table className=" h-5/6 overflow-scroll table-auto bg-transparent max-w-5/6 max-h-5/6 border-separate">
+                  <thead
+                    className="font-bold text-white bg-gray-800 p-2"
+                    dangerouslySetInnerHTML={{ __html: tableHeader }}
+                  ></thead>
+                  <tbody
+                    className="p-2"
+                    dangerouslySetInnerHTML={{ __html: tableBody }}
+                  ></tbody>
+                </table>
+              </div>
             </div>
             <br />
           </div>
