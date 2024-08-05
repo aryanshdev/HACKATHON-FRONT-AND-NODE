@@ -23,6 +23,7 @@ export const UploadData = () => {
       },
     })
       .then((response) => {
+        console.log(response);
         return response.json();
       })
       .then((response) => {

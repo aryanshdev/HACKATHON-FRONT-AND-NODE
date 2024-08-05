@@ -45,7 +45,7 @@ router.get(
 router.get("/genID", ensureAuthenticated, (req, res) => {
   req.session.id = uuid.v4();
   console.log(req.user);
-  userDB.run("INSERT INTO users (ssid, uuid, date, 'upload') VALUES (?, ?, ?)", [req.session.id, id , new Date()]);
+  userDB.run("INSERT INTO users (ssid, uuid, date, 'upload') VALUES (?, ?, ?)", [req.session.id, req.user.id , new Date()]);
   res.redirect(`http://localhost:5173/UploadData/${req.session.id}`);
 });
 
@@ -63,14 +63,23 @@ router.post("/uploadFile", uploadLocation.single("uploadFile"),  (req, res) => {
     }
   })
   .then(response => {
-    res.status(200).json(response.data);
+    req.session.dataset = response.data;
+    res.status(200).json(response.data); 
   })
   .catch(error => {
-    res.status(500).json({
-      message: 'Error forwarding the file',
-      error: error.message
-    });
+    console.log(error);
+    res.sendStatus(500);
   });
+});
+
+router.post("/getDatasetDisplay", (req, res) => {
+  res.json(req.session.dataset);}
+
+);
+
+router.get("/RunModels", (req, res) => {
+  delete req.session.dataset
+  res.redirect("http://localhost:5173/RunModels/"+req.session.id);
 });
 
 router.get("/TransformData", (req, res) => {
@@ -80,7 +89,7 @@ router.get("/TransformData", (req, res) => {
 router.post("/deleteFile", (req, res) => {
   const formData = new FormData();
   formData.append("code", req.session.id);
-  
+
   fetch(`${FLASK_URL}/deleteFile`, {
     method: "POST",
     body: req.body,
