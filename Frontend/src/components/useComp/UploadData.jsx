@@ -3,7 +3,7 @@ import { toast, Toaster } from "react-hot-toast";
 import InsideNav from "./InsideNav";
 import Models from "./Models";
 import { Link, useNavigate } from "react-router-dom";
-import DataTransfer from "./DataTransfer";
+import DataTransform from "./DataTransform";
 import AnimatedGridPattern from "../magicui/animated-grid-pattern";
 import { cn } from "../../lib/utils";
 

@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 import { UploadData } from './components/useComp/UploadData';
 import RealMain from './components/useComp/RealMain';
-import DataTransfer from './components/useComp/DataTransfer';
+import DataTransform from './components/useComp/DataTransform';
 import RunModels from './components/useComp/RunModels';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -34,7 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={<RealMain />}  />
           <Route path="/UploadData/:id" element={<UploadData />} />
-          <Route path="/TransformData/:id" element={<DataTransfer />} />
+          <Route path="/TransformData/:id" element={<DataTransform />} />
           <Route path="/RunModels/:id" element={<RunModels />} />
         </Routes>
       </BrowserRouter>

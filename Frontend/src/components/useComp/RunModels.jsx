@@ -8,19 +8,43 @@ const RunModels = () => {
   const [tableHead, setTableHead] = useState("");
   const [tableData, setTableData] = useState("");
   const [testingSplit, setTestingSplit] = useState("25");
-  document.addEventListener("DOMContentLoaded", () => {
-    setTableHead(getCookie("tableHead"));
-    setTableData(getCookie("tableBody"));
-  });
+  const [outputs, setOutput] = useState("No Outputs Yet");
+  const [encodeSet, setEncoderSet] = useState(false);
+  const [splitSet, setSplitSet] = useState(false);
+  const [targetSet, setTargetSet] = useState(false);
+
   const [trainingSplit, setTrainSplit] = useState("75");
 
+  const tableDisplay = `              <table className="w-4/5 table justify-center align-top h-fit mx-4 table-fixed">
+                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
+                  <th> $MODEL </th> 
+                  <th className="w-0"></th>
+                </thead>
+                <tbody className="w-full p-2 font-semibold text-lg">
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border">Train Accuracy</td>
+                    <td className="w-full text-center p-2 border">Test Accuracy</td>
+                  </tr>
+                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
+                    <td className="w-full text-center p-2 border"> $TRAINACCURACY </td>
+                    <td className="w-full text-center p-2 border"> $TESTACCURACY </td>
+                  </tr>
+                </tbody>
+              </table>`;
+
   const displayOutput = (data) => {
-    console.log(data);
+    var current = tableDisplay.replace("$MODEL", data["model"]);
+    current = current.replace("$TRAINACCURACY", data["train_accuracy"]);
+    current = current.replace("$TESTACCURACY", data["test_accuracy"]);
+    if (outputs == "No Outputs Yet") {
+      setOutput(current);
+    } else {
+      setOutput(outputs + current);
+    }
   };
 
   const setTargetValue = () => {
-    var data = new FormData();
-    data.append("code", getCookie("ssid"));
+    var data = new URLSearchParams();
     data.append(
       "targetValue",
       document.querySelector('input[name="targetValue"]').value
@@ -30,10 +54,15 @@ const RunModels = () => {
       body: data,
     })
       .then((response) => {
-        response.json();
+        return response.json();
       })
       .then((response) => {
-        toast.success(response["message"]);
+        if (response["status"] == "succ") {
+          setTargetSet(true);
+          toast.success(response["message"]);
+        } else {
+          toast.error(response["message"]);
+        }
       });
   };
   const updateTest = (e) => {
@@ -44,21 +73,32 @@ const RunModels = () => {
     setTestingSplit(100 - e.target.value);
   };
   const saveSplits = () => {
-    var data = new FormData();
+    var data = new URLSearchParams();
     var training = document.querySelector('input[name="training"]').value;
-    data.append("code", getCookie("ssid"));
+
     data.append("trainingSplits", training);
     console.log(data);
     fetch("/app/saveSplits", {
       method: "POST",
       body: data,
-    }).then((response) => {
-      toast.success(response["message"]);
-    });
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response["status"] == "succ") {
+          setSplitSet(true);
+          toast.success(response["message"]);
+        } else {
+          toast.error(response["message"]);
+        }
+      }).catch((error) => {
+        toast.error("An error occured");
+      });
   };
 
   const setEncoderStatus = () => {
-    var data = new FormData();
+    var data = new URLSearchParams();
     data.append(
       "encoderStatus",
       document.querySelector('select[name="encoderStatus"]').options[
@@ -70,7 +110,15 @@ const RunModels = () => {
       body: data,
     })
       .then((response) => {
-        toast.success(response["message"]);
+        return response.json();
+      })
+      .then((response) => {
+        if (response["status"] == "succ") {
+          setEncoderSet(true);
+          toast.success(response["message"]);
+        } else {
+          toast.error(response["message"]);
+        }
       })
       .catch((error) => {
         toast.error("An error occured");
@@ -78,11 +126,15 @@ const RunModels = () => {
   };
 
   const runSVM = () => {
-    var data = new FormData();
+    if (!(encodeSet || targetSet || splitSet)) {
+      toast.error("Please Perform Pre Train Steps");
+      return;
+    }
+    var data = new URLSearchParams();
     data.append("param1", document.getElementById("cValSVM").value);
     data.append("param2", document.getElementById("gammaValSVM").value);
     data.append("param3", document.getElementById("KernelSVM").value);
-    data.append("code", getCookie("ssid"));
+
     fetch("/app/runSVM", {
       method: "POST",
       body: data,
@@ -101,11 +153,15 @@ const RunModels = () => {
   };
 
   const runRandomForest = () => {
-    var data = new FormData();
+    if (!(encodeSet || targetSet || splitSet)) {
+      toast.error("Please Perform Pre Train Steps");
+      return;
+    }
+    var data = new URLSearchParams();
     data.append("param1", document.getElementById("nestimatorsRF").value);
     data.append("param2", document.getElementById("MaxDepthDtree").value);
     data.append("param3", document.getElementById("minSampleSplit").value);
-    data.append("code", getCookie("ssid"));
+
     fetch("/app/runRandomForest", {
       method: "POST",
       body: data,
@@ -126,11 +182,15 @@ const RunModels = () => {
       });
   };
   const runXGBoost = () => {
-    var data = new FormData();
+    if (!(encodeSet || targetSet || splitSet)) {
+      toast.error("Please Perform Pre Train Steps");
+      return;
+    }
+    var data = new URLSearchParams();
     data.append("param1", document.getElementById("NEstimatorsXG").value);
     data.append("param2", document.getElementById("MaxDepthXG").value);
     data.append("param3", document.getElementById("LearnRateXG").value);
-    data.append("code", getCookie("ssid"));
+
     fetch("/app/runXGBoost", {
       method: "POST",
       body: data,
@@ -151,11 +211,15 @@ const RunModels = () => {
       });
   };
   const runDecision = () => {
-    var data = new FormData();
+    if (!(encodeSet || targetSet || splitSet)) {
+      toast.error("Please Perform Pre Train Steps");
+      return;
+    }
+    var data = new URLSearchParams();
     data.append("param1", document.getElementById("MaxDepthDectree").value);
     data.append("param2", document.getElementById("minSampleSplitDtree").value);
     data.append("param3", document.getElementById("KernelDecisionTree").value);
-    data.append("code", getCookie("ssid"));
+
     fetch("/app/runDecision", {
       method: "POST",
       body: data,
@@ -176,11 +240,15 @@ const RunModels = () => {
       });
   };
   const runBagging = () => {
-    var data = new FormData();
+    if (!(encodeSet || targetSet || splitSet)) {
+      toast.error("Please Perform Pre Train Steps");
+      return;
+    }
+    var data = new URLSearchParams();
     data.append("param1", document.getElementById("NEstimatorsBagging").value);
     data.append("param2", document.getElementById("MaxSampleBagging").value);
     data.append("param3", document.getElementById("MaxFeaturesBagging").value);
-    data.append("code", getCookie("ssid"));
+
     fetch("/app/runBagging", {
       method: "POST",
       body: data,
@@ -647,75 +715,21 @@ const RunModels = () => {
 
           {/* Table div Starts Here */}
           <div className=" rounded-lg shadow-lg p-5 h-[85vh] bg-[#171717] text-white rounded-r-2xl">
-            <div className="h-full flex flex-col gap-3 overflow-auto items-center">
+            <div
+              className="h-full flex flex-col gap-3 overflow-auto items-center"
+              id="OUTPUTS"
+            >
               <h1 style={{ fontSize: "30px", fontWeight: "bolder" }}>
-                {" "}
                 <i
                   className="fa-solid fa-file-csv"
-                  style={{ color: "#036EFD" }}
-                ></i>{" "}
+                  style={{ color: "#036EFE" }}
+                ></i>
                 &nbsp; Running Status / Results
               </h1>
-              <table className="w-4/5 table justify-center align-top h-fit mx-4 table-fixed">
-                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
-                  <th>SVM</th> <th className="w-0"></th>
-                </thead>
-                <tbody className="w-full p-2 font-semibold text-lg">
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border">Train Accuracy</td>
-                    <td className="w-full text-center p-2 border">Test Accuracy</td>
-                  </tr>
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border"> 73.234 </td>
-                    <td className="w-full text-center p-2 border"> 71.769 </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table className="w-4/5 table justify-center align-top h-fit table-fixed">
-                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
-                  <th>Bagging</th> <th className="w-0"></th>
-                </thead>
-                <tbody className="w-full p-2 font-semibold text-lg">
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border">Train Accuracy</td>
-                    <td className="w-full text-center p-2 border">Test Accuracy</td>
-                  </tr>
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border"> 66.534 </td>
-                    <td className="w-full text-center p-2 border"> 64.213 </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table className="w-4/5 table justify-center align-top h-fit table-fixed">
-                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
-                  <th>Random Forest</th> <th className="w-0"></th>
-                </thead>
-                <tbody className="w-full p-2 font-semibold text-lg">
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border">Train Accuracy</td>
-                    <td className="w-full text-center p-2 border">Test Accuracy</td>
-                  </tr>
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border"> 71.724 </td>
-                    <td className="w-full text-center p-2 border"> 67.433 </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table className="w-4/5 table justify-center align-top h-fit table-fixed ">
-                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
-                  <th>XGBoost</th> <th className="w-0"></th>
-                </thead>
-                <tbody className="w-full p-2 font-semibold text-lg">
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border">Train Accuracy</td>
-                    <td className="w-full text-center p-2 border">Test Accuracy</td>
-                  </tr>
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border"> 83.421 </td>
-                    <td className="w-full text-center p-2 border"> 84.390 </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div
+                className="h-full flex flex-col gap-3 overflow-auto items-center"
+                dangerouslySetInnerHTML={{ __html: outputs }}
+              ></div>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ const sql = require("sqlite3").verbose();
 const session = require("express-session");
 const passport = require("passport");
 const dotenv = require("dotenv");
-const multer  = require('multer');
+const bodyParser = require("body-parser");
 const appRouter = require("./routes/app");
 
 dotenv.config();
@@ -11,12 +11,11 @@ dotenv.config();
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FLASK_URL = "http://127.0.0.1:5000";
 
-const userDB = new sql.Database("./userDB.db");
-
+const userDB = new sql.Database("./userDB.db")
 userDB.run(
   "CREATE TABLE IF NOT EXISTS users (ssid TEXT, uuid TEXT, date DATE, currentStep TEXT)"
 );
-
+userDB.close();
 
 const app = express();
 app.use(express.json());
@@ -29,14 +28,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-function ensureAuth(req,res,next) {
-  if(req.isAuthenticated()) {
-    return next();
-  } else {
-    res.redirect("/");
-  }  
-}
 
 passport.use(
   new GoogleStrategy(

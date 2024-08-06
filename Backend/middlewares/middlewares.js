@@ -6,7 +6,7 @@ ensureAuthenticated = (req,res,next) =>{
         next()
     }
     else{
-        res.status(400).send("UN AUTHORIZED")
+        res.status(400).send("Not Authenticated")
     }
 }
 

@@ -4,23 +4,36 @@ import InsideNav from "./InsideNav";
 import Models from "./Models";
 import toast from "react-hot-toast";
 
-const DataTransfer = () => {
+const DataTransform = () => {
   const [tableHeader, setHeader] = useState("");
   const [tableBody, setBody] = useState("Upload Dataset");
 
-  fetch("/app/getDatasetDisplay", {
-    method: "POST",
-  })
-    .then((response) => {
-      return response.json();
+  const loadDisplayTable = () => {
+    fetch("/app/getDatasetDisplay", {
+      method: "POST",
     })
-    .then((response) => {
-      setTableCompletely(response);
-    })
-    .catch((err) => {
-      toast.error("Error Fetching Table");
-      console.log(err);
-    });
+      .then((response) => {
+        if(response.status === 400){
+          toast.error("Session Expired, Please Login Again");
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+          return;
+        }
+        return response.json();
+      })
+      .then((response) => {
+       
+        setTableCompletely(response);
+      })
+      .catch((err) => {
+
+    
+        
+        toast.error("Error Fetching Table");
+        console.log(err);
+      });
+  };
 
   function setTableCompletely(response) {
     response = JSON.parse(response["data"]);
@@ -43,7 +56,7 @@ const DataTransfer = () => {
   }
 
   const cleanColumns = () => {
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     fetch("/app/cleanColumnNames", {
       method: "POST",
       body: formData,
@@ -62,7 +75,7 @@ const DataTransfer = () => {
   };
 
   const deleteDuplicates = () => {
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     fetch("/app/removeDuplicates", {
       method: "POST",
       body: formData,
@@ -79,11 +92,8 @@ const DataTransfer = () => {
   };
 
   const checkMissingValuesForColumns = () => {
-    const formData = new FormData();
-
     fetch("/app/checkMissing", {
       method: "POST",
-      body: formData,
     })
       .then((response) => response.json())
       .then((response) => {
@@ -110,16 +120,12 @@ const DataTransfer = () => {
   };
 
   const handleNonNumericFill = () => {
-    var formData = new FormData();
+    var formData = new URLSearchParams();
     var col = document.querySelector("input[name='handleNonNum']").value;
     formData.append("col", col);
-
     fetch("/app/handle_NonNumeric_Fill", {
       method: "POST",
       body: formData,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
     })
       .then((response) => {
         return response.json();
@@ -135,9 +141,8 @@ const DataTransfer = () => {
   };
 
   const handleNonNumericDrop = () => {
-    var formData = new FormData();
+    var formData = new URLSearchParams();
     var col = document.querySelector("input[name='handleNonNum']").value;
-
     formData.append("col", col);
     fetch("/app/handle_NonNumeric_Drop", {
       method: "POST",
@@ -157,13 +162,11 @@ const DataTransfer = () => {
   };
 
   const handleNumericMissing = () => {
-    var formData = new FormData();
-    var code = getCookie("ssid");
+    var formData = new URLSearchParams();
     var col = document.querySelector(
       "input[name='handleNumericMissing']"
     ).value;
     formData.append("col", col);
-    formData.append("code", code);
     fetch("/app/handle_Numeric_Missing", {
       method: "POST",
       body: formData,
@@ -182,11 +185,9 @@ const DataTransfer = () => {
   };
 
   const handleDeleteCol = () => {
-    var formData = new FormData();
-    var code = getCookie("ssid");
+    var formData = new URLSearchParams();
     var col = document.querySelector("input[name='dropColumnName']").value;
     formData.append("col", col);
-    formData.append("code", code);
     fetch("/app/dropColumn", {
       method: "POST",
       body: formData,
@@ -204,28 +205,8 @@ const DataTransfer = () => {
       });
   };
 
-  const showManipulatedDataFromServer = () => {
-    const formData = new FormData();
-
-    fetch("/app/cleanColumnNames", {
-      method: "GET",
-      body: formData, // Include this line if you need to send cookies with the request
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        toast.success("Table Now Visible");
-        setTableCompletely(response);
-      })
-      .catch((err) => {
-        toast.error("Error Fetching Table");
-        console.log(err);
-      });
-  };
-
   const convertNumeric = () => {
-    var formData = new FormData();
-
+    var formData = new URLSearchParams();
     var col = document.querySelector("input[name='convertNumeric']").value;
     formData.append("col", col);
     fetch("/app/convertNumeric", {
@@ -245,7 +226,7 @@ const DataTransfer = () => {
       });
   };
   const normalizeDate = () => {
-    var formData = new FormData();
+    var formData = new URLSearchParams();
 
     formData.append(
       "col",
@@ -270,7 +251,7 @@ const DataTransfer = () => {
       });
   };
   const oneHot = () => {
-    var formData = new FormData();
+    var formData = new URLSearchParams();
 
     formData.append(
       "col",
@@ -292,7 +273,7 @@ const DataTransfer = () => {
       });
   };
   const getDatatypes = () => {
-    var formData = new FormData();
+    var formData = new URLSearchParams();
 
     formData.append(
       "col",
@@ -313,7 +294,7 @@ const DataTransfer = () => {
       });
   };
   const dropColWithoutTarget = () => {
-    var formData = new FormData();
+    var formData = new URLSearchParams();
 
     formData.append(
       "col",
@@ -338,15 +319,10 @@ const DataTransfer = () => {
       });
   };
 
-  const setTableFromCookie = () => {
-    fetch("http://");
-    setHeader();
-    setBody();
-  };
   return (
     <div
       className="relative bg-gray-900 h-auto w-screen"
-      onLoad={setTableFromCookie}
+      onLoad={loadDisplayTable}
     >
       <InsideNav currentPage={"Transform"} />
       <div className="text-white flex flex-row justify-center items-center w-screen p-10 bg-black">
@@ -368,7 +344,7 @@ const DataTransfer = () => {
               <br />
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={cleanColumns}
               >
                 <h1 className="font-bold text-2xl">
@@ -391,7 +367,7 @@ const DataTransfer = () => {
               <br />
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={deleteDuplicates}
               >
                 <h1 className="font-bold text-2xl">
@@ -415,7 +391,7 @@ const DataTransfer = () => {
               <br />
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={checkMissingValuesForColumns}
               >
                 <h1 className="font-bold text-2xl">
@@ -439,7 +415,7 @@ const DataTransfer = () => {
               {/* Handle non numeric */}
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={handleNonNumericSelection}
               >
                 <h1 className="font-bold text-2xl">
@@ -452,7 +428,8 @@ const DataTransfer = () => {
                 <br />
                 <div class="mb-1 flex flex-col items-center">
                   <button
-                    onClick={showManipulatedDataFromServer}
+                    type="button"
+                    onClick={loadDisplayTable}
                     className="bg-white px-3 py-2 rounded-full text-blue-600 font-bold"
                   >
                     Show Table Again
@@ -461,6 +438,7 @@ const DataTransfer = () => {
                     Enter Non Numeric Column Names, Comma Separated
                   </label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="form-control mb-2 pb-2"
                     name="handleNonNum"
@@ -477,7 +455,7 @@ const DataTransfer = () => {
                   <select
                     name="handleNonNum"
                     id="handleNonNum"
-                    className="w-64 my-2 p-2 rounded-2xl"
+                    className="w-64 my-2 p-2 rounded-2xl bg-gray-700 focus:outline-none"
                   >
                     <option value="fill">Fill</option>
                     <option value="fill" selected>
@@ -499,7 +477,7 @@ const DataTransfer = () => {
               <form
                 action="javascript:void(0)"
                 onSubmit={handleNumericMissing}
-                encType="multipart/form-data"
+                
               >
                 <h1 className="font-bold text-2xl">
                   {" "}
@@ -515,6 +493,7 @@ const DataTransfer = () => {
                     Enter Numeric Column Names To Be Filled By Median Values
                   </label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
                     name="handleNumericMissing"
@@ -536,7 +515,7 @@ const DataTransfer = () => {
               {/* Convert to numeric  */}
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={convertNumeric}
               >
                 <h1 className="font-bold text-2xl">
@@ -549,6 +528,7 @@ const DataTransfer = () => {
                 <div class="mb-3">
                   <label htmlFor="">Enter Date Column Name</label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
                     name="convertNumeric"
@@ -569,7 +549,7 @@ const DataTransfer = () => {
               {/* Normalize date coloumn  */}
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={normalizeDate}
               >
                 {" "}
@@ -583,6 +563,7 @@ const DataTransfer = () => {
                 <div class="mb-3">
                   <label htmlFor="">Enter Date Column Name</label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
                     name="dateColName"
@@ -604,7 +585,7 @@ const DataTransfer = () => {
               <form
                 action="javascript:void(0)"
                 onSubmit={handleDeleteCol}
-                encType="multipart/form-data"
+                
               >
                 <h1 className="font-bold text-2xl">
                   {" "}
@@ -620,6 +601,7 @@ const DataTransfer = () => {
                     Enter Column Names, Comma Separated, To Drop
                   </label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
                     name="dropColumnName"
@@ -639,7 +621,7 @@ const DataTransfer = () => {
               {/* One hot encoding */}
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={oneHot}
               >
                 {" "}
@@ -653,6 +635,7 @@ const DataTransfer = () => {
                 <div class="mb-3">
                   <label htmlFor="">Enter Target Column Name</label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
                     name="onehotColNum"
@@ -673,7 +656,7 @@ const DataTransfer = () => {
               {/* Get  column data types  */}
               <form
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={getDatatypes}
               >
                 <h1 className="font-bold text-2xl">
@@ -694,9 +677,10 @@ const DataTransfer = () => {
               </form>
               <br /> <br />
               {/* Drop rows without target  */}
-              <form className="mb-6"
+              <form
+                className="mb-6"
                 action="javascript:void(0)"
-                encType="multipart/form-data"
+                
                 onSubmit={dropColWithoutTarget}
               >
                 <h1 className="font-bold text-2xl">
@@ -709,6 +693,7 @@ const DataTransfer = () => {
                 <div class="mb-3">
                   <label htmlFor="">Enter Target Columns to Drop</label>
                   <input
+                    className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
                     class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
                     name="dropColWOTarget"
@@ -728,7 +713,9 @@ const DataTransfer = () => {
                 to={"/app/RunModels"}
                 className="bg-white text-xl px-4 py-2 m-5 rounded-full "
               >
-                <button className="bg-gradient-to-tr from-blue-400 to-green-500 font-bold bg-clip-text text-transparent">Continue</button>
+                <button className="bg-gradient-to-tr from-blue-400 to-green-500 font-bold bg-clip-text text-transparent">
+                  Continue
+                </button>
               </Link>
             </div>
           </div>
@@ -766,4 +753,4 @@ const DataTransfer = () => {
   );
 };
 
-export default DataTransfer;
+export default DataTransform;
