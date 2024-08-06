@@ -13,7 +13,7 @@ const DataTransform = () => {
       method: "POST",
     })
       .then((response) => {
-        if(response.status === 400){
+        if (response.status === 400) {
           toast.error("Session Expired, Please Login Again");
           setTimeout(() => {
             window.location.href = "/";
@@ -23,13 +23,9 @@ const DataTransform = () => {
         return response.json();
       })
       .then((response) => {
-       
         setTableCompletely(response);
       })
       .catch((err) => {
-
-    
-        
         toast.error("Error Fetching Table");
         console.log(err);
       });
@@ -342,11 +338,7 @@ const DataTransform = () => {
               </h1>
               <br />
               <br />
-              <form
-                action="javascript:void(0)"
-                
-                onSubmit={cleanColumns}
-              >
+              <form action="javascript:void(0)" onSubmit={cleanColumns}>
                 <h1 className="font-bold text-2xl">
                   <i
                     class="fa-solid fa-broom "
@@ -365,11 +357,7 @@ const DataTransform = () => {
               {/* Remove Duplicates , buttons */}
               <br />
               <br />
-              <form
-                action="javascript:void(0)"
-                
-                onSubmit={deleteDuplicates}
-              >
+              <form action="javascript:void(0)" onSubmit={deleteDuplicates}>
                 <h1 className="font-bold text-2xl">
                   <i
                     class="fa-solid fa-eraser"
@@ -391,7 +379,6 @@ const DataTransform = () => {
               <br />
               <form
                 action="javascript:void(0)"
-                
                 onSubmit={checkMissingValuesForColumns}
               >
                 <h1 className="font-bold text-2xl">
@@ -415,7 +402,6 @@ const DataTransform = () => {
               {/* Handle non numeric */}
               <form
                 action="javascript:void(0)"
-                
                 onSubmit={handleNonNumericSelection}
               >
                 <h1 className="font-bold text-2xl">
@@ -426,21 +412,14 @@ const DataTransform = () => {
                   &nbsp; Handle Missing Non Numeric Data{" "}
                 </h1>
                 <br />
-                <div class="mb-1 flex flex-col items-center">
-                  <button
-                    type="button"
-                    onClick={loadDisplayTable}
-                    className="bg-white px-3 py-2 rounded-full text-blue-600 font-bold"
-                  >
-                    Show Table Again
-                  </button>
+                <div class="mb-1 flex flex-col items-start justify-start">
                   <label htmlFor="">
                     Enter Non Numeric Column Names, Comma Separated
                   </label>
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="form-control mb-2 pb-2"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="handleNonNum"
                     placeholder="Enter Column Names"
                     style={{ borderRadius: "20px" }}
@@ -463,22 +442,27 @@ const DataTransform = () => {
                     </option>
                   </select>
                 </div>
-                <button
-                  type="submit"
-                  className="bg-white px-3 py-2 rounded-full text-blue-600 font-bold"
-                >
-                  <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp;
-                  Handle Non Numeric
-                </button>
+                <div className=" flex gap-16 my-2">
+                  <button
+                    type="submit"
+                    className="bg-white px-3 py-2 rounded-full text-blue-600 font-bold"
+                  >
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> &nbsp;
+                    Handle Non Numeric
+                  </button>
+                  <button
+                    type="button"
+                    onClick={loadDisplayTable}
+                    className="bg-white px-3 py-2 rounded-full text-blue-600 font-bold"
+                  >
+                    Show Table Again
+                  </button>
+                </div>
               </form>
               <br />
               <br />
               {/* Handle numeric data   */}
-              <form
-                action="javascript:void(0)"
-                onSubmit={handleNumericMissing}
-                
-              >
+              <form action="javascript:void(0)" onSubmit={handleNumericMissing}>
                 <h1 className="font-bold text-2xl">
                   {" "}
                   <i
@@ -495,7 +479,7 @@ const DataTransform = () => {
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="handleNumericMissing"
                     placeholder="Enter Column Name Value"
                     style={{ borderRadius: "20px" }}
@@ -513,11 +497,7 @@ const DataTransform = () => {
               <br />
               <br />
               {/* Convert to numeric  */}
-              <form
-                action="javascript:void(0)"
-                
-                onSubmit={convertNumeric}
-              >
+              <form action="javascript:void(0)" onSubmit={convertNumeric}>
                 <h1 className="font-bold text-2xl">
                   <i
                     class="fa-solid fa-wand-magic-sparkles"
@@ -530,7 +510,7 @@ const DataTransform = () => {
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="convertNumeric"
                     placeholder="Enter Date Column Name"
                     style={{ borderRadius: "20px" }}
@@ -547,11 +527,7 @@ const DataTransform = () => {
               <br />
               <br />
               {/* Normalize date coloumn  */}
-              <form
-                action="javascript:void(0)"
-                
-                onSubmit={normalizeDate}
-              >
+              <form action="javascript:void(0)" onSubmit={normalizeDate}>
                 {" "}
                 <h1 className="font-bold text-2xl">
                   <i
@@ -565,7 +541,7 @@ const DataTransform = () => {
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="dateColName"
                     placeholder="Enter Date Column Name"
                     style={{ borderRadius: "20px" }}
@@ -582,11 +558,7 @@ const DataTransform = () => {
               <br />
               <br />
               {/* Handle Delete Column   */}
-              <form
-                action="javascript:void(0)"
-                onSubmit={handleDeleteCol}
-                
-              >
+              <form action="javascript:void(0)" onSubmit={handleDeleteCol}>
                 <h1 className="font-bold text-2xl">
                   {" "}
                   <i
@@ -603,7 +575,7 @@ const DataTransform = () => {
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="dropColumnName"
                     placeholder="Enter Column Names"
                     style={{ borderRadius: "20px" }}
@@ -619,11 +591,7 @@ const DataTransform = () => {
               </form>
               <br />
               {/* One hot encoding */}
-              <form
-                action="javascript:void(0)"
-                
-                onSubmit={oneHot}
-              >
+              <form action="javascript:void(0)" onSubmit={oneHot}>
                 {" "}
                 <h1 className="font-bold text-2xl">
                   <i
@@ -637,7 +605,7 @@ const DataTransform = () => {
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="onehotColNum"
                     placeholder="Enter Column Name"
                     style={{ borderRadius: "20px" }}
@@ -654,11 +622,7 @@ const DataTransform = () => {
               <br />
               <br />
               {/* Get  column data types  */}
-              <form
-                action="javascript:void(0)"
-                
-                onSubmit={getDatatypes}
-              >
+              <form action="javascript:void(0)" onSubmit={getDatatypes}>
                 <h1 className="font-bold text-2xl">
                   <i
                     class="fa-solid fa-folder-open "
@@ -680,7 +644,6 @@ const DataTransform = () => {
               <form
                 className="mb-6"
                 action="javascript:void(0)"
-                
                 onSubmit={dropColWithoutTarget}
               >
                 <h1 className="font-bold text-2xl">
@@ -695,7 +658,7 @@ const DataTransform = () => {
                   <input
                     className="bg-gray-700 text-white font-semibold px-3 py-2 placeholder:text-gray-500 w-full focus:outline-none"
                     type="text"
-                    class="w-full font-semibold text-black px-3 py-2 placeholder:text-gray-500"
+                    class="w-full font-semibold text-white px-3 py-2 placeholder:text-gray-500 bg-gray-700"
                     name="dropColWOTarget"
                     placeholder="Enter Value"
                     style={{ borderRadius: "20px" }}

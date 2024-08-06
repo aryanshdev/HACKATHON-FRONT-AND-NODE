@@ -11,11 +11,8 @@ const RealMain = () => {
       {/* Main page where all the landing compoents are being rendered */}
       <Navbar />
       <Hero />
-
       <Features />
-
       <MainHeader />
-
       <GoogleSignInSection />
     </div>
   );

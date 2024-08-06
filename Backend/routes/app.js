@@ -89,6 +89,24 @@ router.post("/uploadFile", uploadLocation.single("uploadFile"), (req, res) => {
     });
 });
 
+router.post("/downloadFiles", (req, res) => {
+  const formData = new FormData();
+  formData.append("code", req.session.ssid);
+  axios
+    .post(`${FLASK_URL}/getDownloads`, formData, {
+      headers: {
+        ...formData.getHeaders(),
+      },
+    })
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
+    });
+})
+
 router.post("/getDatasetDisplay", ensureAuthenticated ,(req, res) => {
   if (req.session.dataset){
   res.json(req.session.dataset);}
@@ -109,6 +127,20 @@ router.get("/RunModels",ensureAuthenticated, (req, res) => {
     req.user.id
   );
   res.redirect("http://localhost:5173/RunModels/" + req.session.ssid);
+});
+
+router.get("/DownloadModels",ensureAuthenticated, (req, res) => {
+  delete req.session.dataset;
+  userDB.run(
+    "UPDATE users SET currentStep = 'DownloadModels'  WHERE uuid = ?",
+    req.user.id
+  );
+  res.redirect("http://localhost:5173/DownloadModels/" + req.session.ssid);
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
 });
 
 router.get("/TransformData",ensureAuthenticated, (req, res) => {

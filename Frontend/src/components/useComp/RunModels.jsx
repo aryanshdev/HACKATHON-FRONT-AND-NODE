@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InsideNav from "./InsideNav";
+import { Link } from "react-router-dom";
 import Models from "./Models";
 import toast from "react-hot-toast";
 import AnimatedGridPattern from "../magicui/animated-grid-pattern";
@@ -81,7 +82,6 @@ const RunModels = () => {
     var training = document.querySelector('input[name="training"]').value;
 
     data.append("trainingSplits", training);
-    console.log(data);
     fetch("/app/saveSplits", {
       method: "POST",
       body: data,
@@ -148,7 +148,7 @@ const RunModels = () => {
     })
       .then((data) => {
         if (data["status"] == "succ") {
-          displayOutput("SVM", data.data);
+          displayOutput("SVM" , data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -177,7 +177,6 @@ const RunModels = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data["status"] == "succ") {
           displayOutput("Random Forest", data.data);
           toast.success(data["message"]);
@@ -237,7 +236,7 @@ const RunModels = () => {
       })
       .then((data) => {
         if (data["status"] == "succ") {
-          displayOutput("Decision Tree", data.data);
+          displayOutput("Decision Tree - "+data.type, data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -406,7 +405,7 @@ const RunModels = () => {
             {/* SVM Model */}
             <form
               action="javascript:void(0)"
-              className="flex flex-col my-4"
+              className="flex flex-col my-6"
               onSubmit={runSVM}
             >
               <h1 className="font-bold text-2xl">
@@ -466,7 +465,7 @@ const RunModels = () => {
 
             <form
               action="javascript:void(0)"
-              className="flex flex-col my-4"
+              className="flex flex-col my-6"
               onSubmit={runRandomForest}
             >
               <h1 className="font-bold text-2xl">
@@ -533,7 +532,7 @@ const RunModels = () => {
 
             <form
               action="javascript:void(0)"
-              className="flex flex-col"
+              className="flex flex-col my-6"
               onSubmit={runXGBoost}
             >
               <h1 className="font-bold text-2xl">
@@ -598,7 +597,7 @@ const RunModels = () => {
             {/* Decision Tree  */}
             <form
               action="javascript:void(0)"
-              className="flex flex-col"
+              className="flex flex-col my-6"
               onSubmit={runDecision}
             >
               <h1 className="font-bold text-2xl">
@@ -643,7 +642,7 @@ const RunModels = () => {
                 >
                   <option value="gini">Gini</option>
                   <option value="entropy">Entropy</option>
-                  <option value="log-loss">Log-Loss</option>
+                  <option value="log_loss">Log-Loss</option>
                 </select>
               </div>
               <div className="bg-white px-4 py-1 w-fit rounded-full my-3">
@@ -660,7 +659,7 @@ const RunModels = () => {
             {/* Bagging  */}
             <form
               action="javascript:void(0)"
-              className="flex flex-col"
+              className="flex flex-col my-6"
               onSubmit={runBagging}
             >
               {" "}
@@ -719,6 +718,14 @@ const RunModels = () => {
                 </button>{" "}
               </div>
             </form>
+            <Link
+                to={"/app/RunModels"}
+                className="bg-white text-xl px-4 py-2 m-5 rounded-full "
+              >
+                <button className="bg-gradient-to-tr from-blue-400 to-green-500 font-bold bg-clip-text text-transparent">
+                  Continue
+                </button>
+              </Link>
           </div>
 
           {/* Table div Starts Here */}
