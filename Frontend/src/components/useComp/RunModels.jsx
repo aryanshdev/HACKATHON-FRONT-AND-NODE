@@ -15,25 +15,29 @@ const RunModels = () => {
 
   const [trainingSplit, setTrainSplit] = useState("75");
 
-  const tableDisplay = `              <table className="w-4/5 table justify-center align-top h-fit mx-4 table-fixed">
-                <thead className="  bg-white text-indigo-600 w-full p-2 font-bold text-xl">
-                  <th> $MODEL </th> 
-                  <th className="w-0"></th>
-                </thead>
-                <tbody className="w-full p-2 font-semibold text-lg">
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border">Train Accuracy</td>
-                    <td className="w-full text-center p-2 border">Test Accuracy</td>
-                  </tr>
-                  <tr className="grid-flow-col grid grid-cols-2 align-middle">
-                    <td className="w-full text-center p-2 border"> $TRAINACCURACY </td>
-                    <td className="w-full text-center p-2 border"> $TESTACCURACY </td>
-                  </tr>
-                </tbody>
-              </table>`;
+  const tableDisplay = `
+  <table class="w-4/5 table justify-center align-top h-fit mx-4 table-fixed">
+    <thead class="bg-white text-indigo-600 w-full p-2 font-bold text-xl">
+      <tr>
+        <th> $MODEL </th> 
+        <th class="w-0"></th>
+      </tr>
+    </thead>
+    <tbody class="w-full p-2 font-semibold text-lg">
+      <tr class="grid-flow-col grid grid-cols-2 align-middle">
+        <td class="w-full text-center p-2 border">Train Accuracy</td>
+        <td class="w-full text-center p-2 border">Test Accuracy</td>
+      </tr>
+      <tr class="grid-flow-col grid grid-cols-2 align-middle">
+        <td class="w-full text-center p-2 border"> $TRAINACCURACY </td>
+        <td class="w-full text-center p-2 border"> $TESTACCURACY </td>
+      </tr>
+    </tbody>
+  </table>
+`;
 
-  const displayOutput = (data) => {
-    var current = tableDisplay.replace("$MODEL", data["model"]);
+  const displayOutput = (model, data) => {
+    var current = tableDisplay.replace("$MODEL", model);
     current = current.replace("$TRAINACCURACY", data["train_accuracy"]);
     current = current.replace("$TESTACCURACY", data["test_accuracy"]);
     if (outputs == "No Outputs Yet") {
@@ -92,7 +96,8 @@ const RunModels = () => {
         } else {
           toast.error(response["message"]);
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         toast.error("An error occured");
       });
   };
@@ -131,17 +136,19 @@ const RunModels = () => {
       return;
     }
     var data = new URLSearchParams();
-    data.append("param1", document.getElementById("cValSVM").value);
-    data.append("param2", document.getElementById("gammaValSVM").value);
-    data.append("param3", document.getElementById("KernelSVM").value);
+    data.append("param2", document.getElementById("cValSVM").value);
+    data.append("param3", document.getElementById("gammaValSVM").value);
+    data.append("param1", document.getElementById("KernelSVM").value);
 
     fetch("/app/runSVM", {
       method: "POST",
       body: data,
+    }).then((response) => {
+      return response.json();
     })
       .then((data) => {
         if (data["status"] == "succ") {
-          displayOutput(data);
+          displayOutput("SVM", data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -167,11 +174,12 @@ const RunModels = () => {
       body: data,
     })
       .then((response) => {
-        response.json();
+        return response.json();
       })
       .then((data) => {
+        console.log(data);
         if (data["status"] == "succ") {
-          displayOutput(data);
+          displayOutput("Random Forest", data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -196,11 +204,11 @@ const RunModels = () => {
       body: data,
     })
       .then((response) => {
-        response.json();
+        return response.json();
       })
       .then((data) => {
         if (data["status"] == "succ") {
-          displayOutput(data);
+          displayOutput("XG Boost", data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -225,11 +233,11 @@ const RunModels = () => {
       body: data,
     })
       .then((response) => {
-        response.json();
+        return response.json();
       })
       .then((data) => {
         if (data["status"] == "succ") {
-          displayOutput(data);
+          displayOutput("Decision Tree", data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -254,11 +262,11 @@ const RunModels = () => {
       body: data,
     })
       .then((response) => {
-        response.json();
+        return response.json();
       })
       .then((data) => {
         if (data["status"] == "succ") {
-          displayOutput(data);
+          displayOutput("Bagging", data.data);
           toast.success(data["message"]);
         } else {
           toast.error(data["message"]);
@@ -727,7 +735,7 @@ const RunModels = () => {
                 &nbsp; Running Status / Results
               </h1>
               <div
-                className="h-full flex flex-col gap-3 overflow-auto items-center"
+                className="h-full flex flex-col gap-3 overflow-auto items-center w-full"
                 dangerouslySetInnerHTML={{ __html: outputs }}
               ></div>
             </div>

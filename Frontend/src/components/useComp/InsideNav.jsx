@@ -43,7 +43,7 @@ const InsideNav = ({currentPage}) => {
           </button>
           <button
             className={`px-3 py-1 rounded-full text-base font-semibold ${
-              currentPage == "Downlaods"
+              currentPage == "Downloads"
                 ? "bg-blue-500 text-white"
                 : "bg-white "
             }`}

@@ -7,6 +7,7 @@ import RealMain from './components/useComp/RealMain';
 import DataTransform from './components/useComp/DataTransform';
 import RunModels from './components/useComp/RunModels';
 import { v4 as uuidv4 } from 'uuid';
+import Downloads from './components/useComp/DownloadModels';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/UploadData/:id" element={<UploadData />} />
           <Route path="/TransformData/:id" element={<DataTransform />} />
           <Route path="/RunModels/:id" element={<RunModels />} />
+          <Route path="/DownloadModels/:id" element={<Downloads />} />
         </Routes>
       </BrowserRouter>
     </>
