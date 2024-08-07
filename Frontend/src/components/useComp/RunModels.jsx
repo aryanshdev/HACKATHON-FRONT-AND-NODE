@@ -719,7 +719,7 @@ const RunModels = () => {
               </div>
             </form>
             <Link
-                to={"/app/RunModels"}
+                to={"/app/DownloadModels"}
                 className="bg-white text-xl px-4 py-2 m-5 rounded-full "
               >
                 <button className="bg-gradient-to-tr from-blue-400 to-green-500 font-bold bg-clip-text text-transparent">

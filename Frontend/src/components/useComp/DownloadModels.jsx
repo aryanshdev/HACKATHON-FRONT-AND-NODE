@@ -27,6 +27,17 @@ const DownloadModels = () => {
         setXGBoost(data["xgboost"]);
       });
   };
+  const closeSession = async () => {
+    fetch("/app/closeSession", {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        toast.success("Session Closed Successfully");
+      });
+  };
   return (
     <div
       className="overflow-hidden rounded-lg w-screen md:shadow-xl"
@@ -162,12 +173,12 @@ const DownloadModels = () => {
               </ul>
             </div>
             <div className="flex flex-row gap-4 w-full justify-between align-middle items-center">
-              <button className="bg-white text-blue-500 font-bold text-lg px-4 py-2 rounded-full">
-                <i className="fa-solid fa-user scale-100 pr-4"></i> 
+              <button className="bg-white text-blue-500 font-bold text-lg px-4 py-2 rounded-full" >
+                <i className="fa-solid fa-user scale-100 pr-4"></i>
                 Logout
               </button>
               <div className="flex flex-col gap-3 w-fit justify-center items-center font-semibold">
-                <button className="bg-white text-blue-500 font-bold text-lg px-4 py-2 rounded-full w-fit ">
+                <button className="bg-white text-blue-500 font-bold text-lg px-4 py-2 rounded-full w-fit " onClick={closeSession}>
                   Close This Session
                 </button>
                 Closing Session Deletes All Models And Datasets

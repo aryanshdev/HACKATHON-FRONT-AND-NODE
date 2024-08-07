@@ -11,7 +11,7 @@ dotenv.config();
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FLASK_URL = "http://127.0.0.1:5000";
 
-const userDB = new sql.Database("userDB.db")
+const userDB = new sql.Database("./userDB.db")
 userDB.run(
   "CREATE TABLE IF NOT EXISTS users (ssid TEXT, uuid TEXT, date DATE, currentStep TEXT)"
 );

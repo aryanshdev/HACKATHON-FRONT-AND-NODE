@@ -16,7 +16,7 @@ router.use(express.urlencoded({ extended: true }));
 
 
 //Connect DB
-const userDB = new sql.Database("../userDB.db");
+const userDB = new sql.Database("./userDB.db");
 userDB.run(
   "CREATE TABLE IF NOT EXISTS users (ssid TEXT, uuid TEXT, date DATE, currentStep TEXT)"
 );
@@ -218,6 +218,15 @@ router.post("/cleanColumnNames", (req, res) => {
 //     res.send(response.data);
 //   });
 // });
+
+router.delete("/closeSession", ensureAuthenticated, (req, res) => {
+  axios.delete(`${FLASK_URL}/closeSession`, {
+    data: (new FormData().append("code", req.session.ssid)),
+  });
+  userDB.run("DELETE FROM users WHERE uuid = ?", req.user.id);
+  req.session.destroy();
+  res.status(200).json({ message: "Session closed" });
+});
 
 router.post("/removeDuplicates", (req, res) => {
   const formData = new FormData();

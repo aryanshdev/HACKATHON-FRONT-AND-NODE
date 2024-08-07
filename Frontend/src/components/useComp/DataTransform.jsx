@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import InsideNav from "./InsideNav";
 import Models from "./Models";
 import toast from "react-hot-toast";
+import AnimatedGridPattern from "../magicui/animated-grid-pattern";
 
 const DataTransform = () => {
   const [tableHeader, setHeader] = useState("");
@@ -316,12 +317,13 @@ const DataTransform = () => {
   };
 
   return (
-    <div
-      className="relative bg-gray-900 h-auto w-screen"
+    <div className="overflow-hidden rounded-lg w-screen md:shadow-xl"
       onLoad={loadDisplayTable}
     >
+     
       <InsideNav currentPage={"Transform"} />
       <div className="text-white flex flex-row justify-center items-center w-screen p-10 bg-black">
+     
         <div className="grid grid-cols-2 gap-4 py-10">
           <div className="h-full">
             <div className="form rounded-lg shadow-lg p-5 h-[80vh] overflow-y-scroll bg-[#171717] text-white">

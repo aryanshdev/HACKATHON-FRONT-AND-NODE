@@ -55,7 +55,7 @@ export const UploadData = () => {
   return (
     <div className="overflow-hidden rounded-lg w-screen md:shadow-xl">
       <AnimatedGridPattern
-        numSquares={50}
+        numSquares={120}
         maxOpacity={0.6}
         duration={1}
         repeatDelay={1}
